@@ -6,6 +6,6 @@
         public string ImageUrl { get; set; }
         public string Caption { get; set; }
         public int SpaceId { get; set; }
-        //public Space Space { get; set; } // Navigation property
+        public Spaces Space { get; set; } // Navigation property
     }
 }

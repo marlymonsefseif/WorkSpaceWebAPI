@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq.Expressions;
+using WorkSpaceWebAPI.Models;
 
 namespace WorkSpaceWebAPI.Repository
 {
-    public class Repository<T>
+    public class Repository<T>:IRepository<T> where T : class
     {
-        protected ProjectEntitis context;
+        protected ApplicationDbContext context;
         protected DbSet<T> dbSet;
-        public Repository(ProjectEntitis context)
+        public Repository(ApplicationDbContext context)
         {
             this.context = context;
             dbSet = context.Set<T>();
@@ -19,12 +21,12 @@ namespace WorkSpaceWebAPI.Repository
             dbSet.Add(entity);
         }
 
-        public void Delete(Id id)
+        public void Delete(int id)
         {
             context.Remove(GetById(id));
         }
 
-        public IQueryable<T> GetAll()
+        public IQueryable<T> Get()
         {
             return dbSet;
         }
@@ -53,7 +55,7 @@ namespace WorkSpaceWebAPI.Repository
             return dbSet.Where(predicate).Select(selector).Skip((pageNumber - 1) * size).Take(size);
         }
 
-        public T GetById(Id id)
+        public T GetById(int id)
         {
             return dbSet.Find(id);
         }
