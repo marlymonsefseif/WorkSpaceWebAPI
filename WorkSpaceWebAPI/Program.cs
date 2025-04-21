@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using WorkSpaceWebAPI.Models;
+
 namespace WorkSpaceWebAPI
 {
     public class Program
@@ -10,9 +13,12 @@ namespace WorkSpaceWebAPI
             // Add services to the container.
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddDbContext<ApplicationDbContext>(contextbuilder =>
+            {
+                contextbuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
 
             var app = builder.Build();
 
