@@ -8,8 +8,9 @@ namespace WorkSpaceWebAPI.Models
         public int SpaceId { get; set; }
         [ForeignKey("Amenity")]
         public int AmenityId { get; set; }
-       
-        public Spaces Space { get; set; } 
-        public Amenity Amenity { get; set; } 
+
+        // Navigation property
+        public Spaces? Space { get; set; } 
+        public Amenity? Amenity { get; set; } 
     }
 }

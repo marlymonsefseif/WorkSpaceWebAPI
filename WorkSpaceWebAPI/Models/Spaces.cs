@@ -33,6 +33,7 @@ namespace WorkSpaceWebAPI.Models
         public bool IsAvailable { get; set; }
         public SpaceTypes SpaceType { get; set; }
 
+        // Navigation property
         public ICollection<Gallery>? Gallery { get; set; }
         public ICollection<Booking>? Bookings { get; set; }
         public ICollection<SpaceAmenity>? SpaceAmenities { get; set; }

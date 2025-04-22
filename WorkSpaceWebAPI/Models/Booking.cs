@@ -34,6 +34,7 @@ namespace WorkSpaceWebAPI.Models
         [ForeignKey("zone")]
         public int ZoneId { get; set; }
 
+        // Navigation property
         public Spaces zone { get; set; }
         public ApplicationUser User { get; set; }
         public ICollection<Payment>? Payments { get; set; }
