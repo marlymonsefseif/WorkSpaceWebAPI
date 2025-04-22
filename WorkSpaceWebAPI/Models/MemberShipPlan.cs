@@ -19,6 +19,6 @@ namespace WorkSpaceWebAPI.Models
         public int DurationInDays { get; set; }
 
         // Navigation property
-        public ICollection<UserMemberShip>? UserMemberships { get; set; }
+        public ICollection<UserMembership>? UserMemberships { get; set; }
     }
 }

@@ -2,10 +2,10 @@
 
 namespace WorkSpaceWebAPI.Repository
 {
-    public class BookingRepo : IBookingRepo
+    public class BookingRepository : IBookingRepository
     {
-        ApplicationDbContext context;
-        public BookingRepo(ApplicationDbContext context) 
+        WorkSpaceDbContext context;
+        public BookingRepository(WorkSpaceDbContext context) 
         {
             this.context = context;
         }

@@ -10,7 +10,7 @@ using WorkSpaceWebAPI.Models;
 
 namespace WorkSpaceWebAPI.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(WorkSpaceDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

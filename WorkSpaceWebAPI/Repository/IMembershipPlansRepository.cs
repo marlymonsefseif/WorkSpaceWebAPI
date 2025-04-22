@@ -2,7 +2,7 @@
 
 namespace WorkSpaceWebAPI.Repository
 {
-    public interface IMembershipPlansRepo :IGenericRepository<MemberShipPlan>
+    public interface IMembershipPlansRepository :IGenericRepository<MembershipPlan>
     {
     }
 }

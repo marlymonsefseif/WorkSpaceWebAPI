@@ -11,7 +11,7 @@ using WorkSpaceWebAPI.Models;
 
 namespace WorkSpaceWebAPI.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(WorkSpaceDbContext))]
     [Migration("20250421205052_init")]
     partial class init
     {

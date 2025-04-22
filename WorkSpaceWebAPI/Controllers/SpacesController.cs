@@ -9,8 +9,8 @@ namespace WorkSpaceWebAPI.Controllers
     [ApiController]
     public class SpacesController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        public SpacesController(ApplicationDbContext context)
+        private readonly WorkSpaceDbContext _context;
+        public SpacesController(WorkSpaceDbContext context)
         {
             _context = context;
         }

@@ -15,7 +15,7 @@ namespace WorkSpaceWebAPI
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddDbContext<ApplicationDbContext>(contextbuilder =>
+            builder.Services.AddDbContext<WorkSpaceDbContext>(contextbuilder =>
             {
                 contextbuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });

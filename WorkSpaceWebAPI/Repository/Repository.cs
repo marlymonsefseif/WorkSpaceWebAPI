@@ -7,9 +7,9 @@ namespace WorkSpaceWebAPI.Repository
 {
     public class Repository<T>:IRepository<T> where T : class
     {
-        protected ApplicationDbContext context;
+        protected WorkSpaceDbContext context;
         protected DbSet<T> dbSet;
-        public Repository(ApplicationDbContext context)
+        public Repository(WorkSpaceDbContext context)
         {
             this.context = context;
             dbSet = context.Set<T>();

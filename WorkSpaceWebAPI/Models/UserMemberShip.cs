@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WorkSpaceWebAPI.Models
 {
-    public class UserMemberShip
+    public class UserMembership
     {
         [Key]
         public int Id { get; set; }
