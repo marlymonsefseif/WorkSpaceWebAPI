@@ -30,10 +30,12 @@ namespace WorkSpaceWebAPI.Models
 
         [ForeignKey("User")]
         public int UserId { get; set; }
-        public ApplicationUser User { get; set; }
 
         [ForeignKey("zone")]
         public int ZoneId { get; set; }
+
         public Spaces zone { get; set; }
+        public ApplicationUser User { get; set; }
+        public ICollection<Payment>? Payments { get; set; }
     }
 }

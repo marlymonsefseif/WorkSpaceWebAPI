@@ -17,11 +17,12 @@ namespace WorkSpaceWebAPI.Models
         [Key] 
         public int Id { get; set; }
 
-        [Required] 
-        [MaxLength(255)]
+        [Required]
+        [MinLength(3, ErrorMessage = "Name must be at least 3 characters.")]
+        [MaxLength(20, ErrorMessage = "Name cannot exceed 20 characters.")]
         public string Name { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public int Capacity { get; set; }
 
         [Column(TypeName = "decimal(18, 2)")] 
@@ -32,9 +33,8 @@ namespace WorkSpaceWebAPI.Models
         public bool IsAvailable { get; set; }
         public SpaceTypes SpaceType { get; set; }
 
-        //public ICollection<Gallery> Gallery { get; set; }
-        //public ICollection<Booking> Bookings { get; set; }
-        //public ICollection<Review> Reviews { get; set; }
-        //public ICollection<SpaceAmenity> SpaceAmenities { get; set; }
+        public ICollection<Gallery>? Gallery { get; set; }
+        public ICollection<Booking>? Bookings { get; set; }
+        public ICollection<SpaceAmenity>? SpaceAmenities { get; set; }
     }
 }

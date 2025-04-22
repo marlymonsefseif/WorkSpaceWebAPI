@@ -1,8 +1,12 @@
-﻿namespace WorkSpaceWebAPI.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace WorkSpaceWebAPI.Models
 {
     public class SpaceAmenity
     {
+        [ForeignKey("Space")]
         public int SpaceId { get; set; }
+        [ForeignKey("Amenity")]
         public int AmenityId { get; set; }
        
         public Spaces Space { get; set; } 

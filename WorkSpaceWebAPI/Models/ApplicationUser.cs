@@ -20,9 +20,9 @@ namespace WorkSpaceWebAPI.Models
         [MaxLength(20)]
         public string? Role { get; set; } = "User";
 
-        public ICollection<Booking> Bookings { get; set; }
-        //public ICollection<Payment> Payments { get; set; }
-        //public ICollection<Feedback> Feedbacks { get; set; }
-        public ICollection<UserMemberShip> Memberships { get; set; }
+        public ICollection<Booking>? Bookings { get; set; }
+        public ICollection<Payment>? Payments { get; set; }
+        public ICollection<Review>? Reviews { get; set; }
+        public ICollection<UserMemberShip>? Memberships { get; set; }
     }
 }
