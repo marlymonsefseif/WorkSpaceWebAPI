@@ -14,10 +14,10 @@ namespace WorkSpaceWebAPI.Models
         public DbSet<Amenity> Amenities { get; set; }
         public DbSet<SpaceAmenity> SpaceAmenities { get; set; }
         //public DbSet<Gallery> Galleries { get; set; }
-        //public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
         //public DbSet<User> Users { get; set; }
         //public DbSet<Review> Reviews { get; set; }
-        //public DbSet<MemberShipPlan> MemberShipPlans { get; set; }
+        public DbSet<MemberShipPlan> MemberShipPlans { get; set; }
         //public DbSet<UserMemberShip> UserMemberShips { get; set; }
         //public DbSet<Payment> Payments { get; set; }
         //public DbSet<ContactMessage> ContactMessages { get; set; }
