@@ -2,7 +2,7 @@
 
 namespace WorkSpaceWebAPI.Repository
 {
-    public interface ISpaceRepository:IGenericRepository<Spaces>
+    public interface IReviewRepository : IGenericRepository<Review>
     {
     }
 }
