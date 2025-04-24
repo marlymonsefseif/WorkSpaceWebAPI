@@ -1,15 +1,19 @@
-﻿namespace WorkSpaceWebAPI.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace WorkSpaceWebAPI.Models
 {
     public class Review
     {
         public long Id { get; set; }
+        [ForeignKey("User")]
         public long UserId { get; set; }
+        [ForeignKey("Room")]
         public long RoomId { get; set; }
         public int Rating { get; set; }
         public string? Comment { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        public UserMembership User { get; set; }
-        public Spaces Room { get; set; }
+        public UserMembership? User { get; set; }
+        public Spaces? Room { get; set; }
     }
 }
