@@ -2,6 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using WorkSpaceWebAPI.Models;
 using WorkSpaceWebAPI.Repository;
+using Stripe;
+using Microsoft.Extensions.Options;
+
 
 namespace WorkSpaceWebAPI
 {
@@ -18,7 +21,7 @@ namespace WorkSpaceWebAPI
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddDbContext<WorkSpaceDbContext>(
-                contextbuilder => contextbuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+                contextbuilder => contextbuilder.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
             );
 
             builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
@@ -32,9 +35,16 @@ namespace WorkSpaceWebAPI
 
 
 
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+
 
 
             var app = builder.Build();
+          /*stripe*/
+
+            var stripeSettings = app.Services.GetRequiredService<IOptions<StripeSettings>>().Value;
+            StripeConfiguration.ApiKey = stripeSettings.SecretKey;
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
