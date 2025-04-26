@@ -24,7 +24,7 @@ namespace WorkSpaceWebAPI.Models
         public TimeOnly? EndTime { get; set; }
 
         [Range(0, double.MaxValue, ErrorMessage = "Amount must be a positive number.")]
-        public decimal Amount { get; set; }
+        public int Amount { get; set; }
 
         public Status status { get; set; } = Status.Pending;
 
