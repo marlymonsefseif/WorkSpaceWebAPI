@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WorkSpaceWebAPI.Models;
 
@@ -11,9 +12,11 @@ using WorkSpaceWebAPI.Models;
 namespace WorkSpaceWebAPI.Migrations
 {
     [DbContext(typeof(WorkSpaceDbContext))]
-    partial class WorkSpaceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250426112552_CompositKeySpaceAmenity")]
+    partial class CompositKeySpaceAmenity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -692,7 +695,7 @@ namespace WorkSpaceWebAPI.Migrations
             modelBuilder.Entity("WorkSpaceWebAPI.Models.SpaceAmenity", b =>
                 {
                     b.HasOne("WorkSpaceWebAPI.Models.Amenity", "Amenity")
-                        .WithMany("SpaceAmenities")
+                        .WithMany("Amenities")
                         .HasForeignKey("AmenityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -729,7 +732,7 @@ namespace WorkSpaceWebAPI.Migrations
 
             modelBuilder.Entity("WorkSpaceWebAPI.Models.Amenity", b =>
                 {
-                    b.Navigation("SpaceAmenities");
+                    b.Navigation("Amenities");
                 });
 
             modelBuilder.Entity("WorkSpaceWebAPI.Models.ApplicationUser", b =>

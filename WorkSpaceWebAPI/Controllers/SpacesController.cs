@@ -20,7 +20,9 @@ namespace WorkSpaceWebAPI.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var spaces = _spaceRepository.Get(s => s.IsDeleted == false, s => new { s.Id, s.Name, s.PricePerHour });
+            var spaces = _spaceRepository.Get(s => s.IsDeleted == false,
+                s => new { s.Id, s.Name, s.PricePerHour, Amenites = s.SpaceAmenities
+                .Select(x => new {x.Amenity.Id,x.Amenity.Name})});
             return Ok(spaces);
         }
 
@@ -29,7 +31,15 @@ namespace WorkSpaceWebAPI.Controllers
         public IActionResult GetById(int id)
         {
             object space = _spaceRepository
-                .GetById(id, s => new { s.Name, s.Description, s.Capacity, s.AvailableFrom, s.AvailableTo });
+                .GetById(id, s =>
+                new 
+                { 
+                    s.Name, s.Description,
+                    s.Capacity, s.AvailableFrom,
+                    s.AvailableTo,
+                    Amenites = s.SpaceAmenities
+                            .Select(sa => new {sa.Amenity.Id,sa.Amenity.Name}) 
+                });
             if (space != null)
                 return Ok(space);
             else
@@ -55,6 +65,13 @@ namespace WorkSpaceWebAPI.Controllers
                         Description = spaceDto.Description
                     };
                     _spaceRepository.Add(space);
+                    _spaceRepository.SaveChanges();
+                    space.SpaceAmenities=spaceDto.AmenitieIds.Select(amenityId=> new SpaceAmenity
+                    {
+                        AmenityId = amenityId,
+                        SpaceId = space.Id
+                    }).ToList();
+                    _spaceRepository.Update(space);
                     _spaceRepository.SaveChanges();
                     return CreatedAtAction("GetById", new { id = space.Id }, null);
                 }

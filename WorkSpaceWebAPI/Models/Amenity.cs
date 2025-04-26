@@ -11,6 +11,6 @@ namespace WorkSpaceWebAPI.Models
         [MaxLength(20, ErrorMessage = "Name cannot exceed 20 characters.")]
         public string Name { get; set; }
         
-        public ICollection<SpaceAmenity>? Amenities { get; set; }
+        public ICollection<SpaceAmenity>? SpaceAmenities { get; set; }
     }
 }

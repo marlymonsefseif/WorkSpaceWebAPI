@@ -26,6 +26,20 @@ namespace WorkSpaceWebAPI.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<SpaceAmenity>()
+                .HasKey(s => new {s.SpaceId,s.AmenityId});
+            modelBuilder.Entity<SpaceAmenity>()
+                .HasOne(sa => sa.Space)
+                .WithMany(s => s.SpaceAmenities)
+                .HasForeignKey(sa => sa.SpaceId)
+                .OnDelete(DeleteBehavior.Cascade); 
+
+            modelBuilder.Entity<SpaceAmenity>()
+                .HasOne(sa => sa.Amenity)
+                .WithMany(a=>a.SpaceAmenities)
+                .HasForeignKey(sa => sa.AmenityId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             base.OnModelCreating(modelBuilder);
             modelBuilder
                 .Entity<Spaces>()

@@ -20,5 +20,6 @@ namespace WorkSpaceWebAPI.DTO
         public TimeSpan AvailableTo { get; set; }
         public bool IsAvailable { get; set; }
         public SpaceTypes SpaceType { get; set; }
+        public List<int>? AmenitieIds { get; set; } = new List<int>();
     }
 }

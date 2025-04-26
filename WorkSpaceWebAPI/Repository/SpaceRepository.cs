@@ -38,7 +38,7 @@ namespace WorkSpaceWebAPI.Repository
         public object GetById<T>(int id,Expression<Func<Spaces,T>> selector)
         {
             return _context.Spaces
-                    .Where(s => s.Id == id&&s.IsDeleted)
+                    .Where(s => s.Id == id&&!s.IsDeleted)
                     .Select(selector)
                     .SingleOrDefault();
         }

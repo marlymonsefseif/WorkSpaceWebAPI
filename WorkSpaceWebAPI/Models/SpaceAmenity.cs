@@ -4,7 +4,6 @@ namespace WorkSpaceWebAPI.Models
 {
     public class SpaceAmenity
     {
-        public int Id { get; set; }
         [ForeignKey("Space")]
         public int SpaceId { get; set; }
         [ForeignKey("Amenity")]
