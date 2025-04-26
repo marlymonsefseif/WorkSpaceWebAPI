@@ -31,6 +31,7 @@ namespace WorkSpaceWebAPI
             builder.Services.AddScoped<IUserMembershipPlansRepository, UserMembershipPlansRepository>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
             builder.Services.AddScoped<ISpaceRepository, SpaceRepository>();
+            builder.Services.AddScoped<IAmenityRepository, AmenityRepsitory>();
 
 
 

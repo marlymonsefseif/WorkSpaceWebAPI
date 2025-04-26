@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using WorkSpaceWebAPI.DTO;
 using WorkSpaceWebAPI.Models;
 using WorkSpaceWebAPI.Repository;
 
@@ -11,11 +12,11 @@ namespace WorkSpaceWebAPI.Controllers
     [ApiController]
     public class AmenityController : ControllerBase
     {
-        private readonly IRepository<Amenity> amenityRepo;
+        private readonly IAmenityRepository _amenityRepo;
 
-        public AmenityController(IRepository<Amenity> amenityRepo) 
+        public AmenityController(IAmenityRepository amenityRepo) 
         {
-            this.amenityRepo = amenityRepo;
+            _amenityRepo = amenityRepo;
         }
         [HttpPost]
         public ActionResult Add(string name)
@@ -25,29 +26,40 @@ namespace WorkSpaceWebAPI.Controllers
                 return BadRequest("Amenity name cannot be null or empty.");
             }
             Amenity amenity = new Amenity { Name = name };
-            amenityRepo.Add(amenity);
-            amenityRepo.Save();
-            return Created();
+            _amenityRepo.Add(amenity);
+            _amenityRepo.SaveChanges();
+            AmenityDto amenityDto = new AmenityDto
+            {
+                Id = amenity.Id,
+                Name = amenity.Name
+            };
+            return Ok(amenityDto);
 
         }
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
-            List<Amenity> amenities =await amenityRepo.Get().ToListAsync();
-            return Ok(amenities);
+            List<Amenity> amenities = await _amenityRepo.GetAllAsync();
+            List<AmenityDto> amenityDtos = amenities
+                .Select(a => new AmenityDto
+                {
+                    Id = a.Id,
+                    Name = a.Name
+                }).ToList();
+            return Ok(amenityDtos);
         }
 
         [HttpDelete]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            Amenity amenity = amenityRepo.GetById(id);
-            if (amenity == null)
+            
+            bool res= await _amenityRepo.DeleteAsync(id);
+            if (!res)
             {
-                return NotFound();
+                return NotFound($"Amenity with id {id} not found.");
             }
-            amenityRepo.Delete(id);
-            amenityRepo.Save();
-            return NoContent();
+            _amenityRepo.SaveChanges();
+            return Ok("Amenity deleted successfully.");
         }
     }
 }
