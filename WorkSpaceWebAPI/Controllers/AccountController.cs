@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using WorkSpaceWebAPI.DTO;
 using WorkSpaceWebAPI.Models;
@@ -18,11 +17,13 @@ namespace WorkSpaceWebAPI.Controllers
     public class AccountController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
         private readonly IConfiguration _config;
-        public AccountController(UserManager<ApplicationUser> userManager, IConfiguration config)
+        public AccountController(UserManager<ApplicationUser> userManager, IConfiguration config, RoleManager<IdentityRole<int>> roleManager)
         {
             _userManager = userManager;
             _config = config;
+            _roleManager = roleManager;
         }
 
         [HttpPost("/Register")]
@@ -47,10 +48,21 @@ namespace WorkSpaceWebAPI.Controllers
             if (!result.Succeeded)
                 return BadRequest(result.Errors);
 
+
+            bool roleCreated = await MakeRole("User");  
+            if (!roleCreated)
+            {
+                return BadRequest("Failed to create User role.");
+            }
+
+            await _userManager.AddToRoleAsync(user, "User");
             if (UserFromRegister.Email.ToLower() == "admin@gmail.com")
-                await _userManager.AddToRoleAsync(user, "Admin");
-            else
-                await _userManager.AddToRoleAsync(user, "User");
+            {
+                roleCreated = await MakeRole("Admin");
+                if (!roleCreated)
+                    return BadRequest("Failed to create Admin role.");
+                await _userManager.AddToRoleAsync(user, "Admin"); 
+            }
 
             return Ok("Account Create Success");
         }
@@ -107,6 +119,22 @@ namespace WorkSpaceWebAPI.Controllers
                 expired = expireDate,
                 token = new JwtSecurityTokenHandler().WriteToken(myToken)
             });
+        }
+
+
+
+
+        [NonAction]
+        public async Task<bool> MakeRole(string roleName)
+        {
+            var roleExist = await _roleManager.RoleExistsAsync(roleName);
+            if (!roleExist)
+            {
+                IdentityRole<int> role = new IdentityRole<int> { Name = roleName };
+                IdentityResult result = await _roleManager.CreateAsync(role);
+                return result.Succeeded;
+            }
+            return true;  
         }
     }
 }

@@ -19,16 +19,16 @@ namespace WorkSpaceWebAPI
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add Swagger services
+            // Add services to the container.
             builder.Services.AddEndpointsApiExplorer();
+
+            // Registering the Controllers
+            builder.Services.AddControllers();
+
+            // Swagger Configuration
             builder.Services.AddSwaggerGen(swagger =>
             {
-                swagger.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Version = "v1",
-                    Title = "ASP.NET 5 Web API",
-                    Description = "ITI Project"
-                });
+                swagger.SwaggerDoc("v1", new OpenApiInfo { Version = "v1", Title = "API", Description = "Example API" });
 
                 swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
@@ -51,21 +51,21 @@ namespace WorkSpaceWebAPI
                         Id = "Bearer"
                     }
                 },
-                new string[] {}
+                new string[] { }
             }
         });
             });
 
-            // Add DbContext with connection string
-            builder.Services.AddDbContext<WorkSpaceDbContext>(contextbuilder =>
-                contextbuilder.UseSqlServer(builder.Configuration.GetConnectionString("MarlyCS"))
+            // Add DbContext and Identity configuration
+            builder.Services.AddDbContext<WorkSpaceDbContext>(options =>
+            //options.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
+                options.UseSqlServer(builder.Configuration.GetConnectionString("MarlyCS"))
             );
 
-            // Add Identity
             builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>()
                 .AddEntityFrameworkStores<WorkSpaceDbContext>();
 
-            // Add custom repositories
+            // Add custom services and repositories
             builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
             builder.Services.AddScoped<IBookingRepository, BookingRepository>();
             builder.Services.AddScoped<ISpaceRepository, SpaceRepository>();
@@ -73,10 +73,10 @@ namespace WorkSpaceWebAPI
             builder.Services.AddScoped<IUserMembershipPlansRepository, UserMembershipPlansRepository>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 
-            // Add Stripe configuration
+            // Stripe configuration
             builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 
-            // Add Authentication (JWT Bearer)
+            // Authentication Configuration (JWT)
             builder.Services.AddAuthentication(options => {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -85,7 +85,7 @@ namespace WorkSpaceWebAPI
             {
                 options.SaveToken = true;
                 options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new()
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
                     ValidIssuer = builder.Configuration["JWT:Iss"],
@@ -95,23 +95,29 @@ namespace WorkSpaceWebAPI
                 };
             });
 
+            // Authorization Configuration
+            builder.Services.AddAuthorization();
+            
+
+
+
             var app = builder.Build();
 
-            // Set up Stripe configuration
+            // Configure Stripe API key
             var stripeSettings = app.Services.GetRequiredService<IOptions<StripeSettings>>().Value;
             StripeConfiguration.ApiKey = stripeSettings.SecretKey;
 
-            // Set up middleware
+            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
-            app.UseAuthentication();  // Add this line
+            app.UseAuthentication();  
             app.UseAuthorization();
 
-            app.MapControllers();
+            app.MapControllers(); 
 
             app.Run();
         }
