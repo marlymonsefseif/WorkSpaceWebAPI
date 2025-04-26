@@ -21,7 +21,7 @@ namespace WorkSpaceWebAPI
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddDbContext<WorkSpaceDbContext>(
-                contextbuilder => contextbuilder.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
+                contextbuilder => contextbuilder.UseSqlServer(builder.Configuration.GetConnectionString("asmaa"))
             );
 
             builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
@@ -30,6 +30,7 @@ namespace WorkSpaceWebAPI
             builder.Services.AddScoped<IMembershipPlansRepository, MembershipPlansRepository>();
             builder.Services.AddScoped<IUserMembershipPlansRepository, UserMembershipPlansRepository>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+            builder.Services.AddScoped<ISpaceRepository, SpaceRepository>();
 
 
 

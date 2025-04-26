@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using WorkSpaceWebAPI.Models;
 using WorkSpaceWebAPI.Repository;
 namespace WorkSpaceWebAPI.Repository
@@ -12,25 +13,40 @@ namespace WorkSpaceWebAPI.Repository
             _context = context;
         }
 
-        public List<Spaces> GetAll()
+        public IEnumerable<Spaces> Get()
+        {
+            return _context.Spaces;
+        }
+        public IEnumerable<Spaces> Get(Expression<Func<Spaces,bool>> predicate)
+        {
+            return _context.Spaces.Where(predicate);
+        }
+        public IEnumerable<T> Get<T>(Expression<Func<Spaces, T>> selector)
+        {
+            return _context.Spaces.Select(selector);
+        }
+        public IEnumerable<T> Get<T>(Expression<Func<Spaces, bool>> predicate,Expression<Func<Spaces,T>> selector)
+        {
+            return _context.Spaces.Where(predicate).Select(selector);
+        }
+        public Spaces GetById(int id,bool isDeleted=false)
+        { 
+            return _context.Spaces
+                   .Where(s => s.Id == id&&!isDeleted)
+                   .SingleOrDefault();
+        }
+        public object GetById<T>(int id,Expression<Func<Spaces,T>> selector)
         {
             return _context.Spaces
-                .Include(s => s.Gallery)
-                .Include(s => s.Bookings)
-                .Include(s => s.SpaceAmenities)
-                .ToList();
+                    .Where(s => s.Id == id&&s.IsDeleted)
+                    .Select(selector)
+                    .SingleOrDefault();
         }
+        
 
-        public Spaces GetById(int id)
-        {
-            return _context.Spaces
-                .Include(s => s.Gallery)
-                .Include(s => s.Bookings)
-                .Include(s => s.SpaceAmenities)
-                .FirstOrDefault(s => s.Id == id);
-        }
 
-        public void Insert(Spaces entity)
+
+        public void Add(Spaces entity)
         {
             _context.Spaces.Add(entity);
         }
@@ -40,19 +56,15 @@ namespace WorkSpaceWebAPI.Repository
             _context.Spaces.Update(entity);
         }
 
+       
         public void Delete(Spaces entity)
         {
             _context.Spaces.Remove(entity);
         }
 
-        public void DeleteById(int id)
-        {
-            var space = GetById(id);
-            if (space != null)
-                Delete(space);
-        }
+        
 
-        public void Save()
+        public void SaveChanges()
         {
             _context.SaveChanges();
         }

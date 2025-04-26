@@ -31,6 +31,7 @@ namespace WorkSpaceWebAPI.Models
         public TimeSpan AvailableFrom { get; set; }
         public TimeSpan AvailableTo { get; set; }
         public bool IsAvailable { get; set; }
+        public bool IsDeleted { get; set; } = false;
         public SpaceTypes SpaceType { get; set; }
 
       
