@@ -4,6 +4,7 @@ using WorkSpaceWebAPI.Models;
 using WorkSpaceWebAPI.Repository;
 using Stripe;
 using Microsoft.Extensions.Options;
+using WorkSpaceWebAPI.Services;
 
 
 namespace WorkSpaceWebAPI
@@ -32,6 +33,8 @@ namespace WorkSpaceWebAPI
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
             builder.Services.AddScoped<ISpaceRepository, SpaceRepository>();
             builder.Services.AddScoped<IAmenityRepository, AmenityRepsitory>();
+            builder.Services.AddScoped<IGalleryRepository, GalleryRepository>();
+            builder.Services.AddScoped<IFileService, Services.FileService>();
 
 
 

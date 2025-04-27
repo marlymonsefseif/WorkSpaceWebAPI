@@ -12,9 +12,12 @@ namespace WorkSpaceWebAPI.Controllers
     public class SpacesController : ControllerBase
     {
         private readonly ISpaceRepository _spaceRepository;
-        public SpacesController(ISpaceRepository spaceRepository)
+        private readonly IGalleryRepository _galleryRepository;
+
+        public SpacesController(ISpaceRepository spaceRepository ,IGalleryRepository galleryRepository)
         {
             _spaceRepository = spaceRepository;
+            _galleryRepository = galleryRepository;
         }
 
         [HttpGet]
@@ -37,8 +40,8 @@ namespace WorkSpaceWebAPI.Controllers
                     s.Name, s.Description,
                     s.Capacity, s.AvailableFrom,
                     s.AvailableTo,
-                    Amenites = s.SpaceAmenities
-                            .Select(sa => new {sa.Amenity.Id,sa.Amenity.Name}) 
+                    Amenites = s.SpaceAmenities.Select(sa => new {sa.Amenity.Id,sa.Amenity.Name}),
+                    Galleries = s.Gallery.Select(g => new { g.Id, ImageUrl=_galleryRepository.GetFullImageUrl(g.ImageURl), g.Caption }),
                 });
             if (space != null)
                 return Ok(space);
@@ -122,6 +125,7 @@ namespace WorkSpaceWebAPI.Controllers
             Spaces space = _spaceRepository.GetById(id);
             if (space != null)
             {
+                _galleryRepository.DeleteAllSpaceGalleries(id);
                 _spaceRepository.Delete(space);
                 _spaceRepository.SaveChanges();
                 return Ok("Deleted");

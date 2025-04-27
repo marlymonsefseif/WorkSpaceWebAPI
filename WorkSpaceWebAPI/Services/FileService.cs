@@ -8,7 +8,7 @@
         {
             this.webHostEnvironment = webHostEnvironment;
         }
-        public async Task<string> SaveFileAsync(IFormFile imageFile, string[] AllowedExtentions, string spaceName)
+        public async Task<string> SaveFileAsync(IFormFile imageFile, string[] AllowedExtentions, int SpaceId)
         {
             if (imageFile == null || imageFile.Length == 0)
             {
@@ -25,7 +25,7 @@
             }
             string fileName = Guid.NewGuid().ToString() + extension;
             string path = Path.Combine(webHostEnvironment.ContentRootPath, "GalleryUploads");
-            path = Path.Combine(path, spaceName);
+            path = Path.Combine(path, SpaceId.ToString());
             if (!File.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -33,19 +33,19 @@
 
             using var fileStream = new FileStream(Path.Combine(path, fileName), FileMode.Create);
             await imageFile.CopyToAsync(fileStream);
-            return fileName;
+            string imageUrl = Path.Combine("GalleryUploads",SpaceId.ToString(), fileName);
+            return imageUrl;
 
 
         }
-        public void DeleteFile(string fileName, string spaceName)
+        public void DeleteFile(string fileName)
         {
             if (string.IsNullOrEmpty(fileName))
             {
                 throw new ArgumentNullException(nameof(fileName), "File path cannot be null or empty");
             }
-            string path = Path.Combine(webHostEnvironment.ContentRootPath, "GalleryUploads");
-            path = Path.Combine(path, spaceName);
-            path = Path.Combine(path, fileName);
+            string path = Path.Combine(webHostEnvironment.ContentRootPath, "GalleryUploads", fileName);
+            
             if (!File.Exists(path))
             {
                 throw new FileNotFoundException($"File {fileName} not found in {path}");
