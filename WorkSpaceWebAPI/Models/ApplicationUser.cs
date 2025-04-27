@@ -16,10 +16,6 @@ namespace WorkSpaceWebAPI.Models
         public string LastName { get; set; }
 
         public string? ImageProfileUrl { get; set; }
-
-        [MaxLength(20)]
-        public string? Role { get; set; } = "User";
-
         // Navigation property
         public ICollection<Booking>? Bookings { get; set; }
         public ICollection<Payment>? Payments { get; set; }

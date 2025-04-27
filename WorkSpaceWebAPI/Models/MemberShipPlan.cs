@@ -15,7 +15,7 @@ namespace WorkSpaceWebAPI.Models
         public string? Description { get; set; }
 
         [Range(0, double.MaxValue, ErrorMessage = "Price must be a positive value.")]
-        public decimal Price { get; set; }
+        public int Price { get; set; }
         public int DurationInDays { get; set; }
 
         // Navigation property
