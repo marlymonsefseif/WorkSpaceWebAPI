@@ -2,7 +2,7 @@
 
 namespace WorkSpaceWebAPI.Controllers
 {
-    public class _ٌReviewController : Controller
+    public class ReviewController : Controller
     {
         public IActionResult Index()
         {
