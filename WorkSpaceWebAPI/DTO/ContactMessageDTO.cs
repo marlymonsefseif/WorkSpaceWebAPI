@@ -1,13 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WorkSpaceWebAPI.Models
+namespace WorkSpaceWebAPI.DTO
 {
-    public class ContactMessage
+    public class ContactMessageDTO
     {
-        public int Id { get; set; }
-
         [Required]
-        [MaxLength(100)]
+        [StringLength(100)]
         public string FullName { get; set; }
 
         [Required]
@@ -15,14 +13,11 @@ namespace WorkSpaceWebAPI.Models
         public string Email { get; set; }
 
         [Required]
-        [MaxLength(150)]
+        [StringLength(100)]
         public string Subject { get; set; }
 
         [Required]
+        [StringLength(1000)]
         public string Message { get; set; }
-
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        public bool IsRead { get; set; } = false;
     }
 }
