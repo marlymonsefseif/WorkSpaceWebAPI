@@ -105,6 +105,48 @@ namespace WorkSpaceWebAPI.Models
                     SpaceType = SpaceTypes.StudySpace
                 }
                 );
+
+            modelBuilder.Entity<Review>().HasData(
+            new Review
+            {
+                Id = 1,
+                UserId = 1,
+                RoomId = 1,
+                Rating = 5,
+                Comment = "Amazing place, very comfortable for studying!",
+                CreatedAt = DateTime.UtcNow
+            },
+            new Review
+            {
+                Id = 2,
+                UserId = 2,
+                RoomId = 2,
+                Rating = 4,
+                Comment = "Nice, but could be a bit quieter.",
+                CreatedAt = DateTime.UtcNow
+            } );
+
+            // Seed Data for Contact Messages
+            modelBuilder.Entity<ContactMessage>().HasData(
+                new ContactMessage
+                {
+                    Id = 1,
+                    FullName = "Ahmed Ali",
+                    Email = "ahmed@example.com",
+                    Subject = "Inquiry about rooms",
+                    Message = "Can I get the pricing details and booking information?",
+                    CreatedAt = DateTime.UtcNow
+                },
+                new ContactMessage
+                {
+                    Id = 2,
+                    FullName = "Sara Mohamed",
+                    Email = "sara@example.com",
+                    Subject = "Issue with booking",
+                    Message = "I booked a room but didn’t receive a confirmation. Can you contact me?",
+                    CreatedAt = DateTime.UtcNow
+                }
+            );
         }
     }
 }
