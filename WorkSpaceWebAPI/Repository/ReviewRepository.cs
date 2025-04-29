@@ -16,7 +16,7 @@ namespace WorkSpaceWebAPI.Repository
         {
             return _context.Reviews
                 .Include(r => r.User)
-                .Include(r => r.Room)
+                .Include(r => r.space)
                 .ToList();
         }
 
@@ -24,7 +24,7 @@ namespace WorkSpaceWebAPI.Repository
         {
             return _context.Reviews
                 .Include(r => r.User)
-                .Include(r => r.Room)
+                .Include(r => r.space)
                 .FirstOrDefault(r => r.Id == id);
         }
 
