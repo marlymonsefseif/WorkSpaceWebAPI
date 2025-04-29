@@ -59,8 +59,9 @@ namespace WorkSpaceWebAPI
 
             // Add DbContext and Identity configuration
             builder.Services.AddDbContext<WorkSpaceDbContext>(options =>
-            //options.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
-                options.UseSqlServer(builder.Configuration.GetConnectionString("Rahma"))
+                //options.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
+                options.UseSqlServer(builder.Configuration.GetConnectionString("MarlyCS"))
+                //options.UseSqlServer(builder.Configuration.GetConnectionString("Rahma"))
             );
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>()
