@@ -31,11 +31,6 @@ namespace WorkSpaceWebAPI.Repository
             return _context.UserMemberships.FirstOrDefault(u => u.Id == id);
         }
 
-        public List<UserMembership> GetSpecificMembership(int purchaseId)
-        {
-            
-        }
-
         public void Insert(UserMembership entity)
         {
             _context.UserMemberships.Add(entity);
