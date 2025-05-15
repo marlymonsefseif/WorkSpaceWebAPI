@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WorkSpaceWebAPI.DTO;
@@ -17,6 +18,7 @@ namespace WorkSpaceWebAPI.Controllers
             this.bookingRepository = bookingRepository;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -34,6 +36,7 @@ namespace WorkSpaceWebAPI.Controllers
             return Ok(booking);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("GetPending")]
         public IActionResult GetPending()
@@ -44,6 +47,7 @@ namespace WorkSpaceWebAPI.Controllers
             return Ok(bookings);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("GetCancelled")]
         public IActionResult GetCancelled()
@@ -54,6 +58,7 @@ namespace WorkSpaceWebAPI.Controllers
             return Ok(bookings);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("GetConfirmed")]
         public IActionResult GetConfirmed()
@@ -64,6 +69,7 @@ namespace WorkSpaceWebAPI.Controllers
             return Ok(bookings);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("GetByStartTime")]
         public IActionResult GetByStartTime(TimeOnly startTime)
@@ -133,6 +139,8 @@ namespace WorkSpaceWebAPI.Controllers
             }
             return BadRequest(ModelState);
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {

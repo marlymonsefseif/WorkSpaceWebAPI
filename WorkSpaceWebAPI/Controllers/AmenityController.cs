@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -18,6 +19,8 @@ namespace WorkSpaceWebAPI.Controllers
         {
             _amenityRepo = amenityRepo;
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Add(string name)
         {
@@ -49,6 +52,7 @@ namespace WorkSpaceWebAPI.Controllers
             return Ok(amenityDtos);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         public async Task<ActionResult> Delete(int id)
         {
