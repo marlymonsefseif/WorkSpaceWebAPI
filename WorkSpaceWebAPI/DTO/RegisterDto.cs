@@ -22,6 +22,6 @@ namespace WorkSpaceWebAPI.DTO
 
         [DataType(DataType.Password)]
         [Compare("Password")]
-        public string ConfirmEmail { get; set; }
+        public string ConfirmPassword { get; set; }
     }
 }

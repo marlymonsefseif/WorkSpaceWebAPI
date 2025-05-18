@@ -49,6 +49,13 @@ namespace WorkSpaceWebAPI
             builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>()
                 .AddEntityFrameworkStores<WorkSpaceDbContext>();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("MyPolicy", policy =>
+                    policy.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin()
+                );
+            });
+
 
             builder.Services.AddAuthentication(options =>
             {
@@ -134,7 +141,9 @@ namespace WorkSpaceWebAPI
             app.UseAuthentication();  
             app.UseAuthorization();
 
-            app.MapControllers(); 
+            app.MapControllers();
+
+            app.UseCors("MyPolicy");
 
             app.Run();
         }

@@ -26,7 +26,7 @@ namespace WorkSpaceWebAPI.Controllers
             _roleManager = roleManager;
         }
 
-        [HttpPost("/Register")]
+        [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterDto UserFromRegister)
         {
             if (!ModelState.IsValid) 
@@ -67,7 +67,7 @@ namespace WorkSpaceWebAPI.Controllers
             return Ok("Account Create Success");
         }
 
-        [HttpPost("/Login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginDto UserFromLogin)
         {
             if(!ModelState.IsValid) 
