@@ -65,7 +65,7 @@ namespace WorkSpaceWebAPI.Controllers
                 await _userManager.AddToRoleAsync(user, "Admin"); 
             }
 
-            return Ok("Account Create Success");
+            return Ok(new { message = "Account Create Success" });
         }
 
         [HttpPost("Login")]
