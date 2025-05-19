@@ -41,7 +41,8 @@ namespace WorkSpaceWebAPI.Controllers
                 FirstName = UserFromRegister.FirstName,
                 LastName = UserFromRegister.LastName,
                 Email = UserFromRegister.Email,
-                UserName = UserFromRegister.Email
+                UserName = UserFromRegister.Email,
+                PhoneNumber = UserFromRegister.PhoneNumber,
             };
 
             IdentityResult result = await _userManager.CreateAsync(user,UserFromRegister.Password);
