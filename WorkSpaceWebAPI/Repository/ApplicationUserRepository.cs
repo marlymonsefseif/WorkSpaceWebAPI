@@ -1,4 +1,7 @@
-﻿using WorkSpaceWebAPI.Models;
+﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using WorkSpaceWebAPI.DTO;
+using WorkSpaceWebAPI.Models;
 
 namespace WorkSpaceWebAPI.Repository
 {
@@ -29,6 +32,18 @@ namespace WorkSpaceWebAPI.Repository
         public ApplicationUser GetById(int id)
         {
             return _context.Users.FirstOrDefault(u => u.Id == id);
+        }
+
+        public UserDataDto GetUserById(int id)
+        {
+            return _context.Users.Select(u => new UserDataDto()
+            {
+                Id = u.Id,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Email = u.Email,
+                PhoneNumber = u.PhoneNumber
+            }).FirstOrDefault(u => u.Id == id);
         }
 
         public void Insert(ApplicationUser entity)

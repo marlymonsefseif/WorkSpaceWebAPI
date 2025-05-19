@@ -20,9 +20,6 @@ namespace WorkSpaceWebAPI.DTO
         [Required]
         public string Email { get; set; }
 
-        [MaxLength(11, ErrorMessage = "Phone Number must be 11 number.")]
-        public string? PhoneNumber { get; set; }
-
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

@@ -184,6 +184,9 @@ namespace WorkSpaceWebAPI.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Addrees")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -201,6 +204,9 @@ namespace WorkSpaceWebAPI.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("ImageProfileUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Job")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
@@ -300,9 +306,55 @@ namespace WorkSpaceWebAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
                     b.HasKey("Id");
 
                     b.ToTable("ContactMessages");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 5, 19, 20, 33, 33, 719, DateTimeKind.Utc).AddTicks(7814),
+                            Email = "ahmed@example.com",
+                            FullName = "Ahmed Ali",
+                            IsRead = false,
+                            Message = "Can I get the pricing details and booking information?",
+                            Subject = "Inquiry about rooms"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 5, 19, 20, 33, 33, 719, DateTimeKind.Utc).AddTicks(7816),
+                            Email = "sara@example.com",
+                            FullName = "Sara Mohamed",
+                            IsRead = false,
+                            Message = "I booked a room but didn’t receive a confirmation. Can you contact me?",
+                            Subject = "Issue with booking"
+                        });
                 });
 
             modelBuilder.Entity("WorkSpaceWebAPI.Models.Gallery", b =>
@@ -316,7 +368,7 @@ namespace WorkSpaceWebAPI.Migrations
                     b.Property<string>("Caption")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<string>("ImageURl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -406,15 +458,38 @@ namespace WorkSpaceWebAPI.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("spaceId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("RoomId");
-
                     b.HasIndex("UserId");
 
+                    b.HasIndex("spaceId");
+
                     b.ToTable("Reviews");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Comment = "Amazing place, very comfortable for studying!",
+                            CreatedAt = new DateTime(2025, 5, 19, 20, 33, 33, 719, DateTimeKind.Utc).AddTicks(7781),
+                            Rating = 5,
+                            RoomId = 1,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Comment = "Nice, but could be a bit quieter.",
+                            CreatedAt = new DateTime(2025, 5, 19, 20, 33, 33, 719, DateTimeKind.Utc).AddTicks(7783),
+                            Rating = 4,
+                            RoomId = 2,
+                            UserId = 2
+                        });
                 });
 
             modelBuilder.Entity("WorkSpaceWebAPI.Models.SpaceAmenity", b =>
@@ -668,21 +743,19 @@ namespace WorkSpaceWebAPI.Migrations
                         .WithMany("Reviews")
                         .HasForeignKey("ApplicationUserId");
 
-                    b.HasOne("WorkSpaceWebAPI.Models.Spaces", "Room")
-                        .WithMany()
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("WorkSpaceWebAPI.Models.UserMembership", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Room");
+                    b.HasOne("WorkSpaceWebAPI.Models.Spaces", "space")
+                        .WithMany()
+                        .HasForeignKey("spaceId");
 
                     b.Navigation("User");
+
+                    b.Navigation("space");
                 });
 
             modelBuilder.Entity("WorkSpaceWebAPI.Models.SpaceAmenity", b =>

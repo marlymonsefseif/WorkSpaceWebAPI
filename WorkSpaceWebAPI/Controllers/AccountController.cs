@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using WorkSpaceWebAPI.DTO;
 using WorkSpaceWebAPI.Models;
+using WorkSpaceWebAPI.Repository;
 using JwtRegisteredClaimNames = System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames;
 
 namespace WorkSpaceWebAPI.Controllers
@@ -42,7 +43,6 @@ namespace WorkSpaceWebAPI.Controllers
                 LastName = UserFromRegister.LastName,
                 Email = UserFromRegister.Email,
                 UserName = UserFromRegister.Email,
-                PhoneNumber = UserFromRegister.PhoneNumber,
             };
 
             IdentityResult result = await _userManager.CreateAsync(user,UserFromRegister.Password);
@@ -123,8 +123,6 @@ namespace WorkSpaceWebAPI.Controllers
         }
 
 
-
-
         [NonAction]
         public async Task<bool> MakeRole(string roleName)
         {
@@ -137,5 +135,7 @@ namespace WorkSpaceWebAPI.Controllers
             }
             return true;  
         }
+
+
     }
 }
