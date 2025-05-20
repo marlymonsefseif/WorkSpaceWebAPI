@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WorkSpaceWebAPI.DTO;
 using WorkSpaceWebAPI.Models;
@@ -12,9 +14,12 @@ namespace WorkSpaceWebAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly IApplicationUserRepository _userRepository;
-        public UserController(IApplicationUserRepository applicationUser)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public UserController(IApplicationUserRepository applicationUser, UserManager<ApplicationUser> userManager)
         {
             _userRepository = applicationUser;
+            _userManager = userManager;
         }
 
         [HttpGet("{id:int}")]
@@ -27,18 +32,30 @@ namespace WorkSpaceWebAPI.Controllers
 
         [HttpPut("{id:int}")]
         [Authorize]
-        public IActionResult EditUser(int id, UserDataDto userDataFromReq)
+        public async Task<IActionResult> EditUser(int id, UserDataDto userDataFromReq)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             ApplicationUser userFromDb = _userRepository.GetById(id);
+            if (userFromDb == null)
+                return NotFound();
+
             userFromDb.FirstName = userDataFromReq.FirstName;
             userFromDb.LastName = userDataFromReq.LastName;
             userFromDb.Email = userDataFromReq.Email;
             userFromDb.PhoneNumber = userDataFromReq.PhoneNumber;
             userFromDb.ImageProfileUrl = userDataFromReq.ProfileImg;
-            userFromDb.PasswordHash = userDataFromReq.NewPassword;
+            if (!string.IsNullOrWhiteSpace(userDataFromReq.OldPassword) &&
+                    !string.IsNullOrWhiteSpace(userDataFromReq.NewPassword))
+            {
+                var passwordChangeResult = await _userManager.ChangePasswordAsync(userFromDb, userDataFromReq.OldPassword, userDataFromReq.NewPassword);
+
+                if (!passwordChangeResult.Succeeded)
+                {
+                    return BadRequest(new { message = "Password change failed", errors = passwordChangeResult.Errors });
+                }
+            }
             _userRepository.Update(userFromDb);
             _userRepository.Save();
             return Ok(new { message = "Edit Success" });
