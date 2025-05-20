@@ -118,6 +118,7 @@ namespace WorkSpaceWebAPI.Controllers
             return Ok(new
             {
                 id = user.Id,
+                Name = user.FirstName,
                 expired = expireDate,
                 token = new JwtSecurityTokenHandler().WriteToken(myToken)
             });
