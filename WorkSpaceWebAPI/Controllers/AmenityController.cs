@@ -20,7 +20,7 @@ namespace WorkSpaceWebAPI.Controllers
             _amenityRepo = amenityRepo;
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Add(string name)
         {
