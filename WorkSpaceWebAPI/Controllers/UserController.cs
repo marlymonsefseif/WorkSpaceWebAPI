@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WorkSpaceWebAPI.DTO;
+using WorkSpaceWebAPI.Models;
 using WorkSpaceWebAPI.Repository;
 
 namespace WorkSpaceWebAPI.Controllers
@@ -18,10 +19,29 @@ namespace WorkSpaceWebAPI.Controllers
 
         [HttpGet("{id:int}")]
         [Authorize]
-        public IActionResult GetUserById(int id)
+        public IActionResult GetUser(int id)
         {
-            UserDataDto user = _userRepository.GetUserById(id);
-            return Ok(user);
+            UserDataDto userData = _userRepository.GetUserById(id);
+            return Ok(userData);
+        }
+
+        [HttpPut("{id:int}")]
+        [Authorize]
+        public IActionResult EditUser(int id, UserDataDto userDataFromReq)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            ApplicationUser userFromDb = _userRepository.GetById(id);
+            userFromDb.FirstName = userDataFromReq.FirstName;
+            userFromDb.LastName = userDataFromReq.LastName;
+            userFromDb.Email = userDataFromReq.Email;
+            userFromDb.PhoneNumber = userDataFromReq.PhoneNumber;
+            userFromDb.ImageProfileUrl = userDataFromReq.ProfileImg;
+            userFromDb.PasswordHash = userDataFromReq.NewPassword;
+            _userRepository.Update(userFromDb);
+            _userRepository.Save();
+            return Ok(new { message = "Edit Success" });
         }
     }
 }
