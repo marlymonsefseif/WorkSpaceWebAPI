@@ -46,8 +46,16 @@ namespace WorkSpaceWebAPI
             builder.Services.AddScoped<IGalleryRepository, GalleryRepository>();
             builder.Services.AddScoped<IFileService, Services.FileService>();
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>()
-                .AddEntityFrameworkStores<WorkSpaceDbContext>();
+            // Configure Identity
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options =>
+            {
+                options.Password.RequiredLength = 6;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            }
+            ).AddEntityFrameworkStores<WorkSpaceDbContext>();
 
             builder.Services.AddCors(options =>
             {
