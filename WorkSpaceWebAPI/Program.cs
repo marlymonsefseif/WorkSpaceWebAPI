@@ -31,7 +31,9 @@ namespace WorkSpaceWebAPI
             builder.Services.AddDbContext<WorkSpaceDbContext>(options =>
                 //options.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
                 //options.UseSqlServer(builder.Configuration.GetConnectionString("asmaa"))
-                options.UseSqlServer(builder.Configuration.GetConnectionString("Rahma"))
+                //options.UseSqlServer(builder.Configuration.GetConnectionString("Rahma"))
+                options.UseSqlServer(builder.Configuration.GetConnectionString("MarlyCS"))
+
             );
 
             

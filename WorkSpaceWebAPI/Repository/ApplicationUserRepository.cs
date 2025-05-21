@@ -42,7 +42,8 @@ namespace WorkSpaceWebAPI.Repository
                 FirstName = u.FirstName,
                 LastName = u.LastName,
                 Email = u.Email,
-                PhoneNumber = u.PhoneNumber
+                PhoneNumber = u.PhoneNumber,
+                membershipName = u.Memberships.Select(m => m.MembershipPlan.Name).ToList()
             }).FirstOrDefault(u => u.Id == id);
         }
 

@@ -8,6 +8,7 @@
         public string? Email { get; set; }
         public string? PhoneNumber { get; set; }
         public string? ProfileImg { get; set; }
+        public List<string>? membershipName { get; set; }
         public string? OldPassword { get; set; }
         public string? NewPassword { get; set; }
 
