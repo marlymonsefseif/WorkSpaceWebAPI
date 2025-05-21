@@ -43,7 +43,7 @@ namespace WorkSpaceWebAPI.Repository
                 LastName = u.LastName,
                 Email = u.Email,
                 PhoneNumber = u.PhoneNumber,
-                membershipName = u.Memberships.Select(m => m.MembershipPlan.Name).ToList()
+                MembershipName = u.Memberships.Select(m => m.MembershipPlan.Name).ToList()
             }).FirstOrDefault(u => u.Id == id);
         }
 

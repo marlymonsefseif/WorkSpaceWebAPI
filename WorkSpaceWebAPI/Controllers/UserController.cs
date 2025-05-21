@@ -41,11 +41,11 @@ namespace WorkSpaceWebAPI.Controllers
             if (userFromDb == null)
                 return NotFound();
 
-            userFromDb.FirstName = userDataFromReq.FirstName;
-            userFromDb.LastName = userDataFromReq.LastName;
-            userFromDb.Email = userDataFromReq.Email;
-            userFromDb.PhoneNumber = userDataFromReq.PhoneNumber;
-            userFromDb.ImageProfileUrl = userDataFromReq.ProfileImg;
+            userFromDb.FirstName = userDataFromReq.FirstName ?? userFromDb.FirstName;
+            userFromDb.LastName = userDataFromReq.LastName ?? userFromDb.LastName;
+            userFromDb.Email = userDataFromReq.Email ?? userFromDb.Email;
+            userFromDb.PhoneNumber = userDataFromReq.PhoneNumber ?? userFromDb.PhoneNumber;
+            userFromDb.ImageProfileUrl = userDataFromReq.ProfileImg ?? userFromDb.ImageProfileUrl;
             if (!string.IsNullOrWhiteSpace(userDataFromReq.OldPassword) &&
                     !string.IsNullOrWhiteSpace(userDataFromReq.NewPassword))
             {
