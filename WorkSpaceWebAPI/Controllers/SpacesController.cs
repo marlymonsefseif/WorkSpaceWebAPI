@@ -39,7 +39,7 @@ namespace WorkSpaceWebAPI.Controllers
                 { 
                     s.Name, s.Description,
                     s.Capacity, s.AvailableFrom,
-                    s.AvailableTo,
+                    s.AvailableTo, s.IsAvailable, s.PricePerHour, s.SpaceType,
                     Amenites = s.SpaceAmenities.Select(sa => new {sa.Amenity.Id,sa.Amenity.Name}),
                     Galleries = s.Gallery.Select(g => new { g.Id, ImageUrl=_galleryRepository.GetFullImageUrl(g.ImageURl), g.Caption }),
                 });
