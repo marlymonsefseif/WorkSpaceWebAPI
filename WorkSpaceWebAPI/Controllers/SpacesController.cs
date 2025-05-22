@@ -25,7 +25,7 @@ namespace WorkSpaceWebAPI.Controllers
         public IActionResult GetAll()
         {
             var spaces = _spaceRepository.Get(s => s.IsDeleted == false,
-                s => new { s.Id, s.Name, s.PricePerHour, Amenites = s.SpaceAmenities
+                s => new { s.Id, s.Name, s.PricePerHour, s.SpaceType,s.Capacity, Amenites = s.SpaceAmenities
                 .Select(x => new {x.Amenity.Id,x.Amenity.Name})});
             return Ok(spaces);
         }
@@ -40,7 +40,7 @@ namespace WorkSpaceWebAPI.Controllers
                 { 
                     s.Name, s.Description,
                     s.Capacity, s.AvailableFrom,
-                    s.AvailableTo,
+                    s.AvailableTo, s.IsAvailable, s.PricePerHour, s.SpaceType,
                     Amenites = s.SpaceAmenities.Select(sa => new {sa.Amenity.Id,sa.Amenity.Name}),
                     Galleries = s.Gallery.Select(g => new { g.Id, ImageUrl=_galleryRepository.GetFullImageUrl(g.ImageURl), g.Caption }),
                 });

@@ -20,6 +20,8 @@ namespace WorkSpaceWebAPI.Controllers
         {
             _amenityRepo = amenityRepo;
         }
+
+        //[Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Add(string name)
         {
@@ -51,6 +53,7 @@ namespace WorkSpaceWebAPI.Controllers
             return Ok(amenityDtos);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         public async Task<ActionResult> Delete(int id)
         {

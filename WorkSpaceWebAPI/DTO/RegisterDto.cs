@@ -4,6 +4,9 @@ namespace WorkSpaceWebAPI.DTO
 {
     public class RegisterDto
     {
+        [Key]
+        public int Id { get; set; }
+
         [Required]
         [MinLength(3, ErrorMessage = "First name must be at least 3 characters.")]
         [MaxLength(20, ErrorMessage = "First name cannot exceed 20 characters.")]
@@ -22,6 +25,6 @@ namespace WorkSpaceWebAPI.DTO
 
         [DataType(DataType.Password)]
         [Compare("Password")]
-        public string ConfirmEmail { get; set; }
+        public string ConfirmPassword { get; set; }
     }
 }

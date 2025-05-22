@@ -61,10 +61,31 @@ namespace WorkSpaceWebAPI.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            Gallery gallery=await _galleryReposetory.Add(galleryDto);
-            _galleryReposetory.SaveChanges();
-            gallery.ImageURl = _galleryReposetory.GetFullImageUrl(gallery.ImageURl);
-            return CreatedAtAction(nameof(GetById), new { id = gallery.Id }, gallery);
+            try
+            {
+                Gallery gallery = await _galleryReposetory.Add(galleryDto);
+                _galleryReposetory.SaveChanges();
+                gallery.ImageURl = _galleryReposetory.GetFullImageUrl(gallery.ImageURl);
+                return CreatedAtAction(nameof(GetById), new { id = gallery.Id }, gallery);
+            }
+            catch (ArgumentNullException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (FileNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+            
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)

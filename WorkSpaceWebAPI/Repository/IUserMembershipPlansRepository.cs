@@ -4,5 +4,6 @@ namespace WorkSpaceWebAPI.Repository
 {
     public interface IUserMembershipPlansRepository : IGenericRepository<UserMembership>
     {
+
     }
 }

@@ -44,6 +44,24 @@ namespace WorkSpaceWebAPI
             builder.Services.AddScoped<IGalleryRepository, GalleryRepository>();
             builder.Services.AddScoped<IFileService, Services.FileService>();
 
+            // Configure Identity
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options =>
+            {
+                options.Password.RequiredLength = 6;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            }
+            ).AddEntityFrameworkStores<WorkSpaceDbContext>();
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("MyPolicy", policy =>
+                    policy.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin()
+                );
+            });
+
             builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>()
                 .AddEntityFrameworkStores<WorkSpaceDbContext>();
 
@@ -75,6 +93,14 @@ namespace WorkSpaceWebAPI
                     ValidAudience = builder.Configuration["JWT:Aud"],
                     IssuerSigningKey = new SymmetricSecurityKey
                     (Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+                };
+                options.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        Console.WriteLine("Token failed: " + context.Exception.Message);
+                        return Task.CompletedTask;
+                    }
                 };
                 options.Events = new JwtBearerEvents
                 {
@@ -133,7 +159,7 @@ namespace WorkSpaceWebAPI
             StripeConfiguration.ApiKey = stripeSettings.SecretKey;
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();

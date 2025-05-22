@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using WorkSpaceWebAPI.DTO;
 using WorkSpaceWebAPI.Models;
+using WorkSpaceWebAPI.Repository;
 using JwtRegisteredClaimNames = System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames;
 
 namespace WorkSpaceWebAPI.Controllers
@@ -28,8 +29,7 @@ namespace WorkSpaceWebAPI.Controllers
             _roleManager = roleManager;
         }
 
-        [HttpPost("/Register")]
-        [AllowAnonymous]
+        [HttpPost("Register")]
         public async Task<IActionResult> Register(RegisterDto UserFromRegister)
         {
             if (!ModelState.IsValid) 
@@ -44,7 +44,7 @@ namespace WorkSpaceWebAPI.Controllers
                 FirstName = UserFromRegister.FirstName,
                 LastName = UserFromRegister.LastName,
                 Email = UserFromRegister.Email,
-                UserName = UserFromRegister.Email
+                UserName = UserFromRegister.Email,
             };
 
             IdentityResult result = await _userManager.CreateAsync(user,UserFromRegister.Password);
@@ -67,11 +67,10 @@ namespace WorkSpaceWebAPI.Controllers
                 await _userManager.AddToRoleAsync(user, "Admin"); 
             }
 
-            return Ok("Account Create Success");
+            return Ok(new { message = "Account Create Success" });
         }
 
-        [HttpPost("/Login")]
-        [AllowAnonymous]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginDto UserFromLogin)
         {
             if(!ModelState.IsValid) 
@@ -120,12 +119,12 @@ namespace WorkSpaceWebAPI.Controllers
 
             return Ok(new
             {
+                id = user.Id,
+                name = user.FirstName,
                 expired = expireDate,
                 token = new JwtSecurityTokenHandler().WriteToken(myToken)
             });
         }
-
-
 
 
         [NonAction]
@@ -140,5 +139,7 @@ namespace WorkSpaceWebAPI.Controllers
             }
             return true;  
         }
+
+
     }
 }
