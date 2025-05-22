@@ -12,7 +12,7 @@ using WorkSpaceWebAPI.Models;
 namespace WorkSpaceWebAPI.Migrations
 {
     [DbContext(typeof(WorkSpaceDbContext))]
-    [Migration("20250518214336_init")]
+    [Migration("20250522152501_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -335,7 +335,7 @@ namespace WorkSpaceWebAPI.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 5, 18, 21, 43, 36, 128, DateTimeKind.Utc).AddTicks(3825),
+                            CreatedAt = new DateTime(2025, 5, 22, 15, 25, 0, 624, DateTimeKind.Utc).AddTicks(2853),
                             Email = "ahmed@example.com",
                             FullName = "Ahmed Ali",
                             IsRead = false,
@@ -345,7 +345,7 @@ namespace WorkSpaceWebAPI.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 5, 18, 21, 43, 36, 128, DateTimeKind.Utc).AddTicks(3831),
+                            CreatedAt = new DateTime(2025, 5, 22, 15, 25, 0, 624, DateTimeKind.Utc).AddTicks(2856),
                             Email = "sara@example.com",
                             FullName = "Sara Mohamed",
                             IsRead = false,
@@ -438,6 +438,7 @@ namespace WorkSpaceWebAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Comment")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")

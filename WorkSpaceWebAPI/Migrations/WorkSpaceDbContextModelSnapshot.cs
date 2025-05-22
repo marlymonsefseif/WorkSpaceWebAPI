@@ -15,6 +15,7 @@ namespace WorkSpaceWebAPI.Migrations
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
+#pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
@@ -183,9 +184,6 @@ namespace WorkSpaceWebAPI.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("Addrees")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -203,9 +201,6 @@ namespace WorkSpaceWebAPI.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("ImageProfileUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Job")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
@@ -337,7 +332,7 @@ namespace WorkSpaceWebAPI.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 5, 18, 21, 43, 36, 128, DateTimeKind.Utc).AddTicks(3825),
+                            CreatedAt = new DateTime(2025, 5, 22, 15, 25, 0, 624, DateTimeKind.Utc).AddTicks(2853),
                             Email = "ahmed@example.com",
                             FullName = "Ahmed Ali",
                             IsRead = false,
@@ -347,7 +342,7 @@ namespace WorkSpaceWebAPI.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 5, 18, 21, 43, 36, 128, DateTimeKind.Utc).AddTicks(3831),
+                            CreatedAt = new DateTime(2025, 5, 22, 15, 25, 0, 624, DateTimeKind.Utc).AddTicks(2856),
                             Email = "sara@example.com",
                             FullName = "Sara Mohamed",
                             IsRead = false,
@@ -440,6 +435,7 @@ namespace WorkSpaceWebAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Comment")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -454,40 +450,13 @@ namespace WorkSpaceWebAPI.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("spaceId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("RoomId");
 
                     b.HasIndex("RoomId");
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("spaceId");
-
                     b.ToTable("Reviews");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Comment = "Amazing place, very comfortable for studying!",
-                            CreatedAt = new DateTime(2025, 5, 19, 20, 33, 33, 719, DateTimeKind.Utc).AddTicks(7781),
-                            Rating = 5,
-                            RoomId = 1,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Comment = "Nice, but could be a bit quieter.",
-                            CreatedAt = new DateTime(2025, 5, 19, 20, 33, 33, 719, DateTimeKind.Utc).AddTicks(7783),
-                            Rating = 4,
-                            RoomId = 2,
-                            UserId = 2
-                        });
                 });
 
             modelBuilder.Entity("WorkSpaceWebAPI.Models.SpaceAmenity", b =>
@@ -735,7 +704,25 @@ namespace WorkSpaceWebAPI.Migrations
                         .HasForeignKey("BookingId");
                 });
 
-               
+            modelBuilder.Entity("WorkSpaceWebAPI.Models.Review", b =>
+                {
+                    b.HasOne("WorkSpaceWebAPI.Models.Spaces", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WorkSpaceWebAPI.Models.ApplicationUser", "User")
+                        .WithMany("Reviews")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("WorkSpaceWebAPI.Models.SpaceAmenity", b =>
                 {
                     b.HasOne("WorkSpaceWebAPI.Models.Amenity", "Amenity")
@@ -808,7 +795,7 @@ namespace WorkSpaceWebAPI.Migrations
 
                     b.Navigation("SpaceAmenities");
                 });
-
+#pragma warning restore 612, 618
         }
     }
 }

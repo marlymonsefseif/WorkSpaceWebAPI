@@ -62,8 +62,6 @@ namespace WorkSpaceWebAPI
                 );
             });
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>()
-                .AddEntityFrameworkStores<WorkSpaceDbContext>();
 
             builder.Services.AddCors(options =>
             {

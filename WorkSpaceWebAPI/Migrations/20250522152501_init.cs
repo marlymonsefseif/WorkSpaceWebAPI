@@ -317,11 +317,11 @@ namespace WorkSpaceWebAPI.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    RoomId = table.Column<int>(type: "int", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: false),
-                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    RoomId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -393,8 +393,8 @@ namespace WorkSpaceWebAPI.Migrations
                 columns: new[] { "Id", "CreatedAt", "Email", "FullName", "IsRead", "Message", "Subject" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 5, 18, 21, 43, 36, 128, DateTimeKind.Utc).AddTicks(3825), "ahmed@example.com", "Ahmed Ali", false, "Can I get the pricing details and booking information?", "Inquiry about rooms" },
-                    { 2, new DateTime(2025, 5, 18, 21, 43, 36, 128, DateTimeKind.Utc).AddTicks(3831), "sara@example.com", "Sara Mohamed", false, "I booked a room but didn’t receive a confirmation. Can you contact me?", "Issue with booking" }
+                    { 1, new DateTime(2025, 5, 22, 15, 25, 0, 624, DateTimeKind.Utc).AddTicks(2853), "ahmed@example.com", "Ahmed Ali", false, "Can I get the pricing details and booking information?", "Inquiry about rooms" },
+                    { 2, new DateTime(2025, 5, 22, 15, 25, 0, 624, DateTimeKind.Utc).AddTicks(2856), "sara@example.com", "Sara Mohamed", false, "I booked a room but didn’t receive a confirmation. Can you contact me?", "Issue with booking" }
                 });
 
             migrationBuilder.InsertData(
