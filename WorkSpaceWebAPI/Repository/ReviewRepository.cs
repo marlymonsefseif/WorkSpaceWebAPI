@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WorkSpaceWebAPI.DTO;
 using WorkSpaceWebAPI.Models;
 
 namespace WorkSpaceWebAPI.Repository
@@ -14,10 +15,7 @@ namespace WorkSpaceWebAPI.Repository
 
         public List<Review> GetAll()
         {
-            return _context.Reviews
-                .Include(r => r.User)
-                .Include(r => r.space)
-                .ToList();
+            return _context.Reviews.ToList();
         }
 
         public Review GetById(int id)
@@ -54,6 +52,18 @@ namespace WorkSpaceWebAPI.Repository
         public void Save()
         {
             _context.SaveChanges();
+        }
+
+        public List<ReviewDTO> GetReviews()
+        {
+            return _context.Reviews.Select(r => new ReviewDTO()
+            {
+                UserId = r.User.Id,
+                RoomId = r.RoomId,
+                Rating = r.Rating,
+                Comment = r.Comment,
+                UserName = r.User.User.FirstName
+            }).ToList();
         }
     }
 }

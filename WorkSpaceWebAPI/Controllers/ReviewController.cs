@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using WorkSpaceWebAPI.DTO;
 using WorkSpaceWebAPI.Models;
+using WorkSpaceWebAPI.Repository;
 
 namespace WorkSpaceWebAPI.Controllers
 {
@@ -10,10 +11,12 @@ namespace WorkSpaceWebAPI.Controllers
     public class ReviewController : ControllerBase
     {
         private readonly WorkSpaceDbContext _context;
+        private readonly IReviewRepository _reviewRepository;
 
-        public ReviewController(WorkSpaceDbContext context)
+        public ReviewController(WorkSpaceDbContext context, IReviewRepository reviewRepository)
         {
             _context = context;
+            _reviewRepository = reviewRepository;
         }
 
         [HttpPost]
@@ -75,6 +78,13 @@ namespace WorkSpaceWebAPI.Controllers
             _context.Reviews.Remove(review);
             await _context.SaveChangesAsync();
             return Ok(new { message = "Review deleted successfully" });
+        }
+
+        [HttpGet("UserReview")]
+        public IActionResult GetUserReviews()
+        {
+            List<ReviewDTO> reviews = _reviewRepository.GetReviews();
+            return Ok(reviews);
         }
     }
 }

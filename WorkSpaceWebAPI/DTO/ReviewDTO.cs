@@ -6,6 +6,7 @@ namespace WorkSpaceWebAPI.DTO
     {
         [Required]
         public int UserId { get; set; }
+        public string UserName { get; set; }
 
         [Required]
         public int RoomId { get; set; }
