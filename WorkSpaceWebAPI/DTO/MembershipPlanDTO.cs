@@ -13,6 +13,8 @@ namespace WorkSpaceWebAPI.DTO
 
         [Range(0, double.MaxValue, ErrorMessage = "Price must be a positive value.")]
         public int Price { get; set; }
+
+        [Range(1, int.MaxValue, ErrorMessage = "Duration must be greater than zero.")]
         public int DurationInDays { get; set; }
     }
 }

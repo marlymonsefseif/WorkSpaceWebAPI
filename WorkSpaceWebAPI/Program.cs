@@ -1,4 +1,3 @@
-
 using Microsoft.EntityFrameworkCore;
 using WorkSpaceWebAPI.Models;
 using WorkSpaceWebAPI.Repository;
@@ -11,12 +10,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-
 namespace WorkSpaceWebAPI
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -27,16 +25,14 @@ namespace WorkSpaceWebAPI
             builder.Services.AddEndpointsApiExplorer();
             //builder.Services.AddSwaggerGen();
 
-            
+
             builder.Services.AddDbContext<WorkSpaceDbContext>(options =>
                 //options.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
-                //options.UseSqlServer(builder.Configuration.GetConnectionString("asmaa"))
-                //options.UseSqlServer(builder.Configuration.GetConnectionString("Rahma"))
-                options.UseSqlServer(builder.Configuration.GetConnectionString("MarlyCS"))
-
+                options.UseSqlServer(builder.Configuration.GetConnectionString("CS"))
+            //options.UseSqlServer(builder.Configuration.GetConnectionString("Rahma"))
             );
 
-            
+
             builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
             builder.Services.AddScoped<IBookingRepository, BookingRepository>();
             builder.Services.AddScoped<ISpaceRepository, SpaceRepository>();
@@ -67,6 +63,17 @@ namespace WorkSpaceWebAPI
             });
 
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("MyPolicy", policy =>
+                         policy.WithOrigins("http://localhost:4200")
+                               .AllowAnyMethod()
+                               .AllowAnyHeader()
+                               .AllowAnyOrigin()
+                );
+            });
+
+
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -84,6 +91,14 @@ namespace WorkSpaceWebAPI
                     ValidAudience = builder.Configuration["JWT:Aud"],
                     IssuerSigningKey = new SymmetricSecurityKey
                     (Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+                };
+                options.Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        Console.WriteLine("Token failed: " + context.Exception.Message);
+                        return Task.CompletedTask;
+                    }
                 };
                 options.Events = new JwtBearerEvents
                 {
@@ -147,13 +162,14 @@ namespace WorkSpaceWebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseCors("MyPolicy");
 
-            app.UseAuthentication();  
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();
 
-            app.UseCors("MyPolicy");
+           
 
             app.Run();
         }

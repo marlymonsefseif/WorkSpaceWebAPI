@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Stripe;
 using WorkSpaceWebAPI.Models;
 
+[Authorize(Roles = "Admin")]
 [Route("api/[controller]")]
 [ApiController]
 public class PaymentController : ControllerBase
