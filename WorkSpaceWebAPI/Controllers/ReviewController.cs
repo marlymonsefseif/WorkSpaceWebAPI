@@ -29,8 +29,8 @@ namespace WorkSpaceWebAPI.Controllers
             CreatedAt = review.CreatedAt,
             UserId = review.UserId,
             RoomId = review.RoomId,
-            UserName = review.User?.UserName,
-            RoomName = review.Room?.Name
+            FirstName = review.User.FirstName,
+            LastName = review.User.LastName,
         };
     }
 
@@ -40,8 +40,8 @@ namespace WorkSpaceWebAPI.Controllers
         {
             Rating = dto.Rating,
             Comment = dto.Comment,
-            UserId = dto.UserId ?? 0,
-            RoomId = dto.RoomId ?? 0,
+            UserId = dto.UserId,
+            RoomId = dto.RoomId,
             CreatedAt = DateTime.UtcNow
         };
     }
@@ -71,22 +71,22 @@ namespace WorkSpaceWebAPI.Controllers
         return Ok(dtos);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateReview(int id, [FromBody] ReviewDTO dto)
-    {
-        var review = await _context.Reviews.FindAsync(id);
-        if (review == null)
-            return NotFound(new { message = "Review not found" });
+    //[HttpPut("{id}")]
+    //public async Task<IActionResult> UpdateReview(int id, [FromBody] ReviewDTO dto)
+    //{
+    //    var review = await _context.Reviews.FindAsync(id);
+    //    if (review == null)
+    //        return NotFound(new { message = "Review not found" });
 
-        review.Rating = dto.Rating;
-        review.Comment = dto.Comment;
-        review.UserId = dto.UserId ?? review.UserId;
-        review.RoomId = dto.RoomId ?? review.RoomId;
-        review.CreatedAt = DateTime.UtcNow;
+    //    review.Rating = dto.Rating;
+    //    review.Comment = dto.Comment;
+    //    review.UserId = dto.UserId ?? review.UserId;
+    //    review.RoomId = dto.RoomId ?? review.RoomId;
+    //    review.CreatedAt = DateTime.UtcNow;
 
-        await _context.SaveChangesAsync();
-        return Ok(new { message = "Review updated successfully" });
-    }
+    //    await _context.SaveChangesAsync();
+    //    return Ok(new { message = "Review updated successfully" });
+    //}
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteReview(int id)
