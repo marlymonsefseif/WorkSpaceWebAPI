@@ -7,6 +7,7 @@ using WorkSpaceWebAPI.Repository;
 
 namespace WorkSpaceWebAPI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class SpacesController : ControllerBase

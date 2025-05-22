@@ -15,17 +15,18 @@ namespace WorkSpaceWebAPI.Repository
         public List<Review> GetAll()
         {
             return _context.Reviews
-                .Include(r => r.User)
-                .Include(r => r.space)
-                .ToList();
+                 .Include(r => r.User)
+                 .Include(r => r.Room)
+                 .ToList();
+
         }
 
         public Review GetById(int id)
         {
             return _context.Reviews
-                .Include(r => r.User)
-                .Include(r => r.space)
-                .FirstOrDefault(r => r.Id == id);
+                  .Include(r => r.User)
+                  .Include(r => r.Room)
+                  .FirstOrDefault(r => r.Id == id);
         }
 
         public void Insert(Review entity)

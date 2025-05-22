@@ -6,19 +6,19 @@ namespace WorkSpaceWebAPI.Models
     public class Review
     {
         public int Id { get; set; }
-        [ForeignKey("User")]
-        public int UserId { get; set; }
 
-        [Required]
-        [ForeignKey("Room")]
-        public int RoomId { get; set; }
+        public string Comment { get; set; }
 
-        [Range(1, 5)]
         public int Rating { get; set; }
-        public string? Comment { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        public UserMembership? User { get; set; }
-        public Spaces? space { get; set; }
+        public DateTime CreatedAt { get; set; }
+
+        public int UserId { get; set; }
+        public ApplicationUser User { get; set; }
+
+        public int RoomId { get; set; }
+        public Spaces Room { get; set; }
+
     }
+
 }

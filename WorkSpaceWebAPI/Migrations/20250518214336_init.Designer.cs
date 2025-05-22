@@ -12,8 +12,8 @@ using WorkSpaceWebAPI.Models;
 namespace WorkSpaceWebAPI.Migrations
 {
     [DbContext(typeof(WorkSpaceDbContext))]
-    [Migration("20250426045940_space_soft_delete")]
-    partial class space_soft_delete
+    [Migration("20250518214336_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -234,10 +234,6 @@ namespace WorkSpaceWebAPI.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Role")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -269,8 +265,8 @@ namespace WorkSpaceWebAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -307,9 +303,55 @@ namespace WorkSpaceWebAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
                     b.HasKey("Id");
 
                     b.ToTable("ContactMessages");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 5, 18, 21, 43, 36, 128, DateTimeKind.Utc).AddTicks(3825),
+                            Email = "ahmed@example.com",
+                            FullName = "Ahmed Ali",
+                            IsRead = false,
+                            Message = "Can I get the pricing details and booking information?",
+                            Subject = "Inquiry about rooms"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 5, 18, 21, 43, 36, 128, DateTimeKind.Utc).AddTicks(3831),
+                            Email = "sara@example.com",
+                            FullName = "Sara Mohamed",
+                            IsRead = false,
+                            Message = "I booked a room but didn’t receive a confirmation. Can you contact me?",
+                            Subject = "Issue with booking"
+                        });
                 });
 
             modelBuilder.Entity("WorkSpaceWebAPI.Models.Gallery", b =>
@@ -323,7 +365,7 @@ namespace WorkSpaceWebAPI.Migrations
                     b.Property<string>("Caption")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<string>("ImageURl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -356,8 +398,8 @@ namespace WorkSpaceWebAPI.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -395,9 +437,6 @@ namespace WorkSpaceWebAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ApplicationUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
@@ -415,8 +454,6 @@ namespace WorkSpaceWebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
-
                     b.HasIndex("RoomId");
 
                     b.HasIndex("UserId");
@@ -426,23 +463,15 @@ namespace WorkSpaceWebAPI.Migrations
 
             modelBuilder.Entity("WorkSpaceWebAPI.Models.SpaceAmenity", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("SpaceId")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AmenityId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SpaceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
+                    b.HasKey("SpaceId", "AmenityId");
 
                     b.HasIndex("AmenityId");
-
-                    b.HasIndex("SpaceId");
 
                     b.ToTable("SpaceAmenities");
                 });
@@ -679,18 +708,14 @@ namespace WorkSpaceWebAPI.Migrations
 
             modelBuilder.Entity("WorkSpaceWebAPI.Models.Review", b =>
                 {
-                    b.HasOne("WorkSpaceWebAPI.Models.ApplicationUser", null)
-                        .WithMany("Reviews")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("WorkSpaceWebAPI.Models.Spaces", "Room")
                         .WithMany()
                         .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WorkSpaceWebAPI.Models.UserMembership", "User")
-                        .WithMany()
+                    b.HasOne("WorkSpaceWebAPI.Models.ApplicationUser", "User")
+                        .WithMany("Reviews")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -703,7 +728,7 @@ namespace WorkSpaceWebAPI.Migrations
             modelBuilder.Entity("WorkSpaceWebAPI.Models.SpaceAmenity", b =>
                 {
                     b.HasOne("WorkSpaceWebAPI.Models.Amenity", "Amenity")
-                        .WithMany("Amenities")
+                        .WithMany("SpaceAmenities")
                         .HasForeignKey("AmenityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -740,7 +765,7 @@ namespace WorkSpaceWebAPI.Migrations
 
             modelBuilder.Entity("WorkSpaceWebAPI.Models.Amenity", b =>
                 {
-                    b.Navigation("Amenities");
+                    b.Navigation("SpaceAmenities");
                 });
 
             modelBuilder.Entity("WorkSpaceWebAPI.Models.ApplicationUser", b =>

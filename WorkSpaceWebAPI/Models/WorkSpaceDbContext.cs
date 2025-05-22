@@ -106,27 +106,7 @@ namespace WorkSpaceWebAPI.Models
                 }
                 );
 
-            modelBuilder.Entity<Review>().HasData(
-            new Review
-            {
-                Id = 1,
-                UserId = 1,
-                RoomId = 1,
-                Rating = 5,
-                Comment = "Amazing place, very comfortable for studying!",
-                CreatedAt = DateTime.UtcNow
-            },
-            new Review
-            {
-                Id = 2,
-                UserId = 2,
-                RoomId = 2,
-                Rating = 4,
-                Comment = "Nice, but could be a bit quieter.",
-                CreatedAt = DateTime.UtcNow
-            } );
-
-            // Seed Data for Contact Messages
+           
             modelBuilder.Entity<ContactMessage>().HasData(
                 new ContactMessage
                 {

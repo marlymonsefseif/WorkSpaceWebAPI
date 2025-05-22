@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ using JwtRegisteredClaimNames = System.IdentityModel.Tokens.Jwt.JwtRegisteredCla
 
 namespace WorkSpaceWebAPI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
@@ -27,6 +29,7 @@ namespace WorkSpaceWebAPI.Controllers
         }
 
         [HttpPost("/Register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterDto UserFromRegister)
         {
             if (!ModelState.IsValid) 
@@ -68,6 +71,7 @@ namespace WorkSpaceWebAPI.Controllers
         }
 
         [HttpPost("/Login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginDto UserFromLogin)
         {
             if(!ModelState.IsValid) 
