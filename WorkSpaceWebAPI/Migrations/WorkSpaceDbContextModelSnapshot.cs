@@ -15,7 +15,6 @@ namespace WorkSpaceWebAPI.Migrations
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
-#pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
@@ -736,29 +735,7 @@ namespace WorkSpaceWebAPI.Migrations
                         .HasForeignKey("BookingId");
                 });
 
-                    b.HasOne("WorkSpaceWebAPI.Models.Spaces", "Room")
-                        .WithMany()
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WorkSpaceWebAPI.Models.ApplicationUser", "User")
-                        .WithMany("Reviews")
-                    b.HasOne("WorkSpaceWebAPI.Models.UserMembership", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WorkSpaceWebAPI.Models.Spaces", "space")
-                        .WithMany()
-                        .HasForeignKey("spaceId");
-
-                    b.Navigation("User");
-
-                    b.Navigation("space");
-                });
-
+               
             modelBuilder.Entity("WorkSpaceWebAPI.Models.SpaceAmenity", b =>
                 {
                     b.HasOne("WorkSpaceWebAPI.Models.Amenity", "Amenity")
@@ -831,7 +808,7 @@ namespace WorkSpaceWebAPI.Migrations
 
                     b.Navigation("SpaceAmenities");
                 });
-#pragma warning restore 612, 618
+
         }
     }
 }
