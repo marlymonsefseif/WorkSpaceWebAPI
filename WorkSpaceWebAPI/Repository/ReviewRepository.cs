@@ -67,8 +67,9 @@ namespace WorkSpaceWebAPI.Repository
                 RoomId = r.RoomId,
                 Rating = r.Rating,
                 Comment = r.Comment,
-                FirstName = r.User.User.FirstName,
-                LastName = r.User.User.LastName
+                FirstName = r.User.FirstName,
+                LastName = r.User.LastName,
+                CreatedAt = r.CreatedAt,
             }).ToList();
         }
     }
