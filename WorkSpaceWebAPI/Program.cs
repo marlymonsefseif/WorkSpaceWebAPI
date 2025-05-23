@@ -30,6 +30,7 @@ namespace WorkSpaceWebAPI
                 //options.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
                 options.UseSqlServer(builder.Configuration.GetConnectionString("CS"))
             //options.UseSqlServer(builder.Configuration.GetConnectionString("Rahma"))
+            //options.UseSqlServer(builder.Configuration.GetConnectionString("MarlyCS"))
             );
 
 
