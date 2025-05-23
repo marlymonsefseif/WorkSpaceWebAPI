@@ -393,8 +393,8 @@ namespace WorkSpaceWebAPI.Migrations
                 columns: new[] { "Id", "CreatedAt", "Email", "FullName", "IsRead", "Message", "Subject" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 5, 22, 15, 25, 0, 624, DateTimeKind.Utc).AddTicks(2853), "ahmed@example.com", "Ahmed Ali", false, "Can I get the pricing details and booking information?", "Inquiry about rooms" },
-                    { 2, new DateTime(2025, 5, 22, 15, 25, 0, 624, DateTimeKind.Utc).AddTicks(2856), "sara@example.com", "Sara Mohamed", false, "I booked a room but didn’t receive a confirmation. Can you contact me?", "Issue with booking" }
+                    { 1, new DateTime(2025, 5, 23, 12, 53, 49, 8, DateTimeKind.Utc).AddTicks(3302), "ahmed@example.com", "Ahmed Ali", false, "Can I get the pricing details and booking information?", "Inquiry about rooms" },
+                    { 2, new DateTime(2025, 5, 23, 12, 53, 49, 8, DateTimeKind.Utc).AddTicks(3306), "sara@example.com", "Sara Mohamed", false, "I booked a room but didn’t receive a confirmation. Can you contact me?", "Issue with booking" }
                 });
 
             migrationBuilder.InsertData(

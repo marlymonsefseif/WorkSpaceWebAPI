@@ -12,8 +12,8 @@ using WorkSpaceWebAPI.Models;
 namespace WorkSpaceWebAPI.Migrations
 {
     [DbContext(typeof(WorkSpaceDbContext))]
-    [Migration("20250522152501_init")]
-    partial class init
+    [Migration("20250523131208_init2")]
+    partial class init2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -335,7 +335,7 @@ namespace WorkSpaceWebAPI.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 5, 22, 15, 25, 0, 624, DateTimeKind.Utc).AddTicks(2853),
+                            CreatedAt = new DateTime(2025, 5, 23, 13, 12, 7, 978, DateTimeKind.Utc).AddTicks(9498),
                             Email = "ahmed@example.com",
                             FullName = "Ahmed Ali",
                             IsRead = false,
@@ -345,7 +345,7 @@ namespace WorkSpaceWebAPI.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 5, 22, 15, 25, 0, 624, DateTimeKind.Utc).AddTicks(2856),
+                            CreatedAt = new DateTime(2025, 5, 23, 13, 12, 7, 978, DateTimeKind.Utc).AddTicks(9501),
                             Email = "sara@example.com",
                             FullName = "Sara Mohamed",
                             IsRead = false,
@@ -404,6 +404,56 @@ namespace WorkSpaceWebAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MembershipPlans");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Need a desk from time to time? Or a central spot to host meetings? We got ya!",
+                            DurationInDays = 30,
+                            Name = "Flex Desk",
+                            Price = 300
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Bring your screens and get tucked in. This desk is yours and only yours!",
+                            DurationInDays = 65,
+                            Name = "Fixed Desk",
+                            Price = 350
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "A home for your business or a space to jam with your team? Room for 6!",
+                            DurationInDays = 40,
+                            Name = "Enterprise",
+                            Price = 1800
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "In town for a couple of days to meet your remote team? Book for up to 8 pax!",
+                            DurationInDays = 7,
+                            Name = "Meeting Room",
+                            Price = 150
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Just you? €25/day gets you a desk and access to all our amenities.",
+                            DurationInDays = 1,
+                            Name = "Day Pass",
+                            Price = 25
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = "Trying out Lisbon? €140 gets you access Monday through Sunday.",
+                            DurationInDays = 7,
+                            Name = "Week Pass",
+                            Price = 140
+                        });
                 });
 
             modelBuilder.Entity("WorkSpaceWebAPI.Models.Payment", b =>
