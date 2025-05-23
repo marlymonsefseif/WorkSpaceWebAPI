@@ -7,7 +7,7 @@ using WorkSpaceWebAPI.Repository;
 
 namespace WorkSpaceWebAPI.Controllers
 {
-    [Authorize(Roles = "Admin")]
+
     [Route("api/[controller]")]
     [ApiController]
     public class SpacesController : ControllerBase
@@ -30,6 +30,7 @@ namespace WorkSpaceWebAPI.Controllers
             return Ok(spaces);
         }
 
+        [Authorize]
         [HttpGet]
         [Route("{id:int}")]
         public IActionResult GetById(int id)
@@ -50,6 +51,7 @@ namespace WorkSpaceWebAPI.Controllers
                 return NotFound();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Add(SpaceDTO spaceDto)
         {
@@ -88,6 +90,7 @@ namespace WorkSpaceWebAPI.Controllers
             return BadRequest(ModelState);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id:int}")]
         public IActionResult Edit(int id, SpaceDTO spaceEdit)
         {
@@ -120,6 +123,7 @@ namespace WorkSpaceWebAPI.Controllers
             return BadRequest(ModelState);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("HardDelete/{id:int}")]
         public IActionResult Delete(int id)
         {
