@@ -9,7 +9,7 @@ using WorkSpaceWebAPI.Repository;
 
 namespace WorkSpaceWebAPI.Controllers
 {
-    [Authorize(Roles = "Admin")]
+
     [Route("api/[controller]")]
     [ApiController]
     public class AmenityController : ControllerBase
@@ -21,7 +21,7 @@ namespace WorkSpaceWebAPI.Controllers
             _amenityRepo = amenityRepo;
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Add(string name)
         {
@@ -40,6 +40,7 @@ namespace WorkSpaceWebAPI.Controllers
             return Ok(amenityDto);
 
         }
+
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {

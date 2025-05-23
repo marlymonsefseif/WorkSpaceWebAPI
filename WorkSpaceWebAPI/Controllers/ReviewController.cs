@@ -2,17 +2,22 @@
 using Microsoft.EntityFrameworkCore;
 using WorkSpaceWebAPI.DTO;
 using WorkSpaceWebAPI.Models;
+using WorkSpaceWebAPI.Repository;
 
-[Route("api/[controller]")]
-[ApiController]
-public class ReviewController : ControllerBase
+namespace WorkSpaceWebAPI.Controllers
 {
-    private readonly WorkSpaceDbContext _context;
-
-    public ReviewController(WorkSpaceDbContext context)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ReviewController : ControllerBase
     {
-        _context = context;
-    }
+        private readonly WorkSpaceDbContext _context;
+        private readonly IReviewRepository _reviewRepository;
+
+        public ReviewController(WorkSpaceDbContext context, IReviewRepository reviewRepository)
+        {
+            _context = context;
+            _reviewRepository = reviewRepository;
+        }
 
     private ReviewDTO ToDto(Review review)
     {
@@ -24,8 +29,8 @@ public class ReviewController : ControllerBase
             CreatedAt = review.CreatedAt,
             UserId = review.UserId,
             RoomId = review.RoomId,
-            UserName = review.User?.UserName,
-            RoomName = review.Room?.Name
+            FirstName = review.User.FirstName,
+            LastName = review.User.LastName,
         };
     }
 
@@ -35,8 +40,8 @@ public class ReviewController : ControllerBase
         {
             Rating = dto.Rating,
             Comment = dto.Comment,
-            UserId = dto.UserId ?? 0,
-            RoomId = dto.RoomId ?? 0,
+            UserId = dto.UserId,
+            RoomId = dto.RoomId,
             CreatedAt = DateTime.UtcNow
         };
     }
@@ -66,22 +71,22 @@ public class ReviewController : ControllerBase
         return Ok(dtos);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateReview(int id, [FromBody] ReviewDTO dto)
-    {
-        var review = await _context.Reviews.FindAsync(id);
-        if (review == null)
-            return NotFound(new { message = "Review not found" });
+    //[HttpPut("{id}")]
+    //public async Task<IActionResult> UpdateReview(int id, [FromBody] ReviewDTO dto)
+    //{
+    //    var review = await _context.Reviews.FindAsync(id);
+    //    if (review == null)
+    //        return NotFound(new { message = "Review not found" });
 
-        review.Rating = dto.Rating;
-        review.Comment = dto.Comment;
-        review.UserId = dto.UserId ?? review.UserId;
-        review.RoomId = dto.RoomId ?? review.RoomId;
-        review.CreatedAt = DateTime.UtcNow;
+    //    review.Rating = dto.Rating;
+    //    review.Comment = dto.Comment;
+    //    review.UserId = dto.UserId ?? review.UserId;
+    //    review.RoomId = dto.RoomId ?? review.RoomId;
+    //    review.CreatedAt = DateTime.UtcNow;
 
-        await _context.SaveChangesAsync();
-        return Ok(new { message = "Review updated successfully" });
-    }
+    //    await _context.SaveChangesAsync();
+    //    return Ok(new { message = "Review updated successfully" });
+    //}
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteReview(int id)
@@ -90,8 +95,16 @@ public class ReviewController : ControllerBase
         if (review == null)
             return NotFound(new { message = "Review not found" });
 
-        _context.Reviews.Remove(review);
-        await _context.SaveChangesAsync();
-        return Ok(new { message = "Review deleted successfully" });
+            _context.Reviews.Remove(review);
+            await _context.SaveChangesAsync();
+            return Ok(new { message = "Review deleted successfully" });
+        }
+
+        [HttpGet("UserReview")]
+        public IActionResult GetUserReviews()
+        {
+            List<ReviewDTO> reviews = _reviewRepository.GetReviews();
+            return Ok(reviews);
+        }
     }
 }
