@@ -81,6 +81,7 @@ namespace WorkSpaceWebAPI.Controllers
             return Ok(bookings);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Add(BookingDTO bookingDTO)
         {
@@ -109,6 +110,8 @@ namespace WorkSpaceWebAPI.Controllers
             }
             return BadRequest(ModelState);
         }
+
+
         [HttpPut("{id:int}")]
         public IActionResult Edit(int id, BookingDTO bookingDTO)
         {

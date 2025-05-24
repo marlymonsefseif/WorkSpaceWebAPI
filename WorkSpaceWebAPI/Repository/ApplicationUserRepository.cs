@@ -47,6 +47,19 @@ namespace WorkSpaceWebAPI.Repository
             }).FirstOrDefault(u => u.Id == id);
         }
 
+        public List<UserDataDto> GetUsers()
+        {
+            return _context.Users.Select(u => new UserDataDto()
+            {
+                Id = u.Id,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Email = u.Email,
+                PhoneNumber = u.PhoneNumber,
+                MembershipName = u.Memberships.Select(m => m.MembershipPlan.Name).ToList()
+            }).ToList();
+        }
+
         public void Insert(ApplicationUser entity)
         {
             _context.Users.Add(entity);

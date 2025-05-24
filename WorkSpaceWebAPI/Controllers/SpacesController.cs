@@ -30,7 +30,7 @@ namespace WorkSpaceWebAPI.Controllers
             return Ok(spaces);
         }
 
-        [Authorize]
+
         [HttpGet]
         [Route("{id:int}")]
         public IActionResult GetById(int id)

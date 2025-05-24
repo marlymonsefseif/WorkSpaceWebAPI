@@ -28,9 +28,9 @@ namespace WorkSpaceWebAPI
 
             builder.Services.AddDbContext<WorkSpaceDbContext>(options =>
             //options.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
-            options.UseSqlServer(builder.Configuration.GetConnectionString("CS"))
+            //options.UseSqlServer(builder.Configuration.GetConnectionString("CS"))
             //options.UseSqlServer(builder.Configuration.GetConnectionString("Rahma"))
-            //options.UseSqlServer(builder.Configuration.GetConnectionString("MarlyCS"))
+            options.UseSqlServer(builder.Configuration.GetConnectionString("MarlyCS"))
             );
 
 
@@ -120,7 +120,7 @@ namespace WorkSpaceWebAPI
                 {
                     Version = "v1",
                     Title = "ASP.NET 5 Web API",
-                    Description = " ITI Projrcy"
+                    Description = " ITI Project"
                 });
                 // To Enable authorization using Swagger (JWT)    
                 swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
@@ -163,6 +163,8 @@ namespace WorkSpaceWebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseDeveloperExceptionPage();
             app.UseCors("MyPolicy");
 
             app.UseAuthentication();

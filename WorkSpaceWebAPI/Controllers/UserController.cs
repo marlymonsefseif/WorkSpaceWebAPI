@@ -22,6 +22,15 @@ namespace WorkSpaceWebAPI.Controllers
             _userManager = userManager;
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public IActionResult GetAllUsers()
+        {
+            List<UserDataDto> users = _userRepository.GetUsers();
+            return Ok(users);
+        }
+
+
         [HttpGet("{id:int}")]
         [Authorize]
         public IActionResult GetUser(int id)
