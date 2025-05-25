@@ -19,7 +19,6 @@ public class PaymentController : ControllerBase
     [HttpPost("create-payment-intent")]
     public async Task<IActionResult> CreatePaymentIntent([FromBody] PaymentRequest paymentRequest)
     {
-        // تأكد من أنه تم تمرير القيم بشكل صحيح
         if (paymentRequest == null || paymentRequest.Amount <= 0)
         {
             return BadRequest("Invalid payment request.");
@@ -27,9 +26,9 @@ public class PaymentController : ControllerBase
 
         var options = new PaymentIntentCreateOptions
         {
-            Amount = Convert.ToInt64(paymentRequest.Amount * 100),  // Stripe يتطلب المبلغ بالـ cents
-            Currency = paymentRequest.Currency,  // العملة
-            Description = paymentRequest.Description  // الوصف (اختياري)
+            Amount = Convert.ToInt64(paymentRequest.Amount * 100),  
+            Currency = paymentRequest.Currency, 
+            Description = paymentRequest.Description  
         };
 
         var service = new PaymentIntentService();

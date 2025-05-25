@@ -70,7 +70,7 @@ namespace WorkSpaceWebAPI
                          policy.WithOrigins("http://localhost:4200")
                                .AllowAnyMethod()
                                .AllowAnyHeader()
-                               .AllowAnyOrigin()
+                               //.AllowAnyOrigin()
                 );
             });
 
