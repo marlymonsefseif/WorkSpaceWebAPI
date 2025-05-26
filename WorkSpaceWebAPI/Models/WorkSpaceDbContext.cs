@@ -128,56 +128,72 @@ namespace WorkSpaceWebAPI.Models
                 }
             );
 
-            modelBuilder.Entity<MembershipPlan>().HasData(
-                new MembershipPlan
-                {
-                    Id = 1,
-                    Name = "Flex Desk",
-                    Description = "Need a desk from time to time? Or a central spot to host meetings? We got ya!",
-                    DurationInDays = 30,
-                    Price = 300
-                },
-                new MembershipPlan
-                {
-                    Id = 2,
-                    Name = "Fixed Desk",
-                    Description = "Bring your screens and get tucked in. This desk is yours and only yours!",
-                    DurationInDays = 65,
-                    Price = 350
-                },
-                new MembershipPlan
-                {
-                    Id = 3,
-                    Name = "Enterprise",
-                    Description = "A home for your business or a space to jam with your team? Room for 6!",
-                    DurationInDays = 40,
-                    Price = 1800
-                },
-                new MembershipPlan
-                {
-                    Id = 4,
-                    Name = "Meeting Room",
-                    Description = "In town for a couple of days to meet your remote team? Book for up to 8 pax!",
-                    DurationInDays = 7,
-                    Price = 150
-                },
-                new MembershipPlan
-                {
-                    Id = 5,
-                    Name = "Day Pass",
-                    Description = "Just you? €25/day gets you a desk and access to all our amenities.",
-                    DurationInDays =1,
-                    Price = 25
-                },
-                new MembershipPlan
-                {
-                    Id = 6,
-                    Name = "Week Pass",
-                    Description = "Trying out Lisbon? €140 gets you access Monday through Sunday.",
-                    DurationInDays = 7,
-                    Price = 140
-                }
-            );
+            //modelBuilder.Entity<MembershipPlan>().HasData(
+            //    new MembershipPlan
+            //    {
+            //        Id = 1,
+            //        Name = "Flex Desk",
+            //        Description = "Need a desk from time to time? Or a central spot to host meetings? We got ya!",
+            //        DurationInDays = 30,
+            //        Price = 300
+            //    },
+            //    new MembershipPlan
+            //    {
+            //        Id = 2,
+            //        Name = "Fixed Desk",
+            //        Description = "Bring your screens and get tucked in. This desk is yours and only yours!",
+            //        DurationInDays = 65,
+            //        Price = 350
+            //    },
+            //    new MembershipPlan
+            //    {
+            //        Id = 3,
+            //        Name = "Enterprise",
+            //        Description = "A home for your business or a space to jam with your team? Room for 6!",
+            //        DurationInDays = 40,
+            //        Price = 1800
+            //    },
+            //    new MembershipPlan
+            //    {
+            //        Id = 4,
+            //        Name = "Meeting Room",
+            //        Description = "In town for a couple of days to meet your remote team? Book for up to 8 pax!",
+            //        DurationInDays = 7,
+            //        Price = 150
+            //    },
+            //    new MembershipPlan
+            //    {
+            //        Id = 5,
+            //        Name = "Day Pass",
+            //        Description = "Just you? €25/day gets you a desk and access to all our amenities.",
+            //        DurationInDays =1,
+            //        Price = 25
+            //    },
+            //    new MembershipPlan
+            //    {
+            //        Id = 6,
+            //        Name = "Week Pass",
+            //        Description = "Trying out Lisbon? €140 gets you access Monday through Sunday.",
+            //        DurationInDays = 7,
+            //        Price = 140
+            //    }
+            //);
+
+
+            //modelBuilder.Entity<ApplicationUser>()
+            //    .HasMany(u => u.Bookings)
+            //    .WithOne(b => b.User)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //modelBuilder.Entity<ApplicationUser>()
+            //    .HasMany(u => u.Reviews)
+            //    .WithOne(r => r.User)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //modelBuilder.Entity<ApplicationUser>()
+            //    .HasMany(u => u.Memberships)
+            //    .WithOne(m => m.User)
+            //    .OnDelete(DeleteBehavior.Cascade);
 
         }
     }
