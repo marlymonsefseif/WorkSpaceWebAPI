@@ -69,5 +69,11 @@ namespace WorkSpaceWebAPI.Controllers
             _userRepository.Save();
             return Ok(new { message = "Edit Success" });
         }
+
+        [HttpDelete]
+        public IActionResult DeleteUser(int id)
+        {
+
+        }
     }
 }
