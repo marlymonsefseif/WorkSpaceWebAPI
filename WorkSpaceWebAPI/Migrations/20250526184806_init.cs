@@ -393,8 +393,21 @@ namespace WorkSpaceWebAPI.Migrations
                 columns: new[] { "Id", "CreatedAt", "Email", "FullName", "IsRead", "Message", "Subject" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 5, 23, 12, 53, 49, 8, DateTimeKind.Utc).AddTicks(3302), "ahmed@example.com", "Ahmed Ali", false, "Can I get the pricing details and booking information?", "Inquiry about rooms" },
-                    { 2, new DateTime(2025, 5, 23, 12, 53, 49, 8, DateTimeKind.Utc).AddTicks(3306), "sara@example.com", "Sara Mohamed", false, "I booked a room but didn’t receive a confirmation. Can you contact me?", "Issue with booking" }
+                    { 1, new DateTime(2025, 5, 26, 18, 48, 6, 399, DateTimeKind.Utc).AddTicks(5329), "ahmed@example.com", "Ahmed Ali", false, "Can I get the pricing details and booking information?", "Inquiry about rooms" },
+                    { 2, new DateTime(2025, 5, 26, 18, 48, 6, 399, DateTimeKind.Utc).AddTicks(5331), "sara@example.com", "Sara Mohamed", false, "I booked a room but didn’t receive a confirmation. Can you contact me?", "Issue with booking" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "MembershipPlans",
+                columns: new[] { "Id", "Description", "DurationInDays", "Name", "Price" },
+                values: new object[,]
+                {
+                    { 1, "Need a desk from time to time? Or a central spot to host meetings? We got ya!", 30, "Flex Desk", 300 },
+                    { 2, "Bring your screens and get tucked in. This desk is yours and only yours!", 65, "Fixed Desk", 350 },
+                    { 3, "A home for your business or a space to jam with your team? Room for 6!", 40, "Enterprise", 1800 },
+                    { 4, "In town for a couple of days to meet your remote team? Book for up to 8 pax!", 7, "Meeting Room", 150 },
+                    { 5, "Just you? €25/day gets you a desk and access to all our amenities.", 1, "Day Pass", 25 },
+                    { 6, "Trying out Lisbon? €140 gets you access Monday through Sunday.", 7, "Week Pass", 140 }
                 });
 
             migrationBuilder.InsertData(

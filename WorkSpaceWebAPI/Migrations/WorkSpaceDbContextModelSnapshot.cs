@@ -332,7 +332,7 @@ namespace WorkSpaceWebAPI.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 5, 22, 21, 20, 4, 987, DateTimeKind.Utc).AddTicks(2215),
+                            CreatedAt = new DateTime(2025, 5, 26, 18, 48, 6, 399, DateTimeKind.Utc).AddTicks(5329),
                             Email = "ahmed@example.com",
                             FullName = "Ahmed Ali",
                             IsRead = false,
@@ -342,7 +342,7 @@ namespace WorkSpaceWebAPI.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 5, 22, 21, 20, 4, 987, DateTimeKind.Utc).AddTicks(2217),
+                            CreatedAt = new DateTime(2025, 5, 26, 18, 48, 6, 399, DateTimeKind.Utc).AddTicks(5331),
                             Email = "sara@example.com",
                             FullName = "Sara Mohamed",
                             IsRead = false,

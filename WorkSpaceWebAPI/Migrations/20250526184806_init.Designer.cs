@@ -12,8 +12,8 @@ using WorkSpaceWebAPI.Models;
 namespace WorkSpaceWebAPI.Migrations
 {
     [DbContext(typeof(WorkSpaceDbContext))]
-    [Migration("20250523131208_init2")]
-    partial class init2
+    [Migration("20250526184806_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -335,7 +335,7 @@ namespace WorkSpaceWebAPI.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 5, 23, 13, 12, 7, 978, DateTimeKind.Utc).AddTicks(9498),
+                            CreatedAt = new DateTime(2025, 5, 26, 18, 48, 6, 399, DateTimeKind.Utc).AddTicks(5329),
                             Email = "ahmed@example.com",
                             FullName = "Ahmed Ali",
                             IsRead = false,
@@ -345,7 +345,7 @@ namespace WorkSpaceWebAPI.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 5, 23, 13, 12, 7, 978, DateTimeKind.Utc).AddTicks(9501),
+                            CreatedAt = new DateTime(2025, 5, 26, 18, 48, 6, 399, DateTimeKind.Utc).AddTicks(5331),
                             Email = "sara@example.com",
                             FullName = "Sara Mohamed",
                             IsRead = false,
