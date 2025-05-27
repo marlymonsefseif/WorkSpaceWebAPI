@@ -50,6 +50,7 @@ namespace WorkSpaceWebAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles ="Admin")]
         public IActionResult Add(SpaceDTO spaceDto)
         {
             if (ModelState.IsValid)

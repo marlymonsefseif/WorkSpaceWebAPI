@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using WorkSpaceWebAPI.DTO;
@@ -56,6 +57,7 @@ namespace WorkSpaceWebAPI.Controllers
                 return NotFound();
             return Ok(galleries);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Add([FromForm] GalleryDto galleryDto)
         {
