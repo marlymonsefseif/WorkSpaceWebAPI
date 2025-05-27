@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WorkSpaceWebAPI.DTO;
 using WorkSpaceWebAPI.Models;
 
@@ -15,6 +16,7 @@ namespace WorkSpaceWebAPI.Controllers
             _context = context;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> SendMessage([FromBody] ContactMessageDTO dto)
         {

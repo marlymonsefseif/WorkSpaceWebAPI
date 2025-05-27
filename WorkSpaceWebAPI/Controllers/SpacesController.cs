@@ -7,6 +7,7 @@ using WorkSpaceWebAPI.Repository;
 
 namespace WorkSpaceWebAPI.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class SpacesController : ControllerBase
@@ -24,10 +25,11 @@ namespace WorkSpaceWebAPI.Controllers
         public IActionResult GetAll()
         {
             var spaces = _spaceRepository.Get(s => s.IsDeleted == false,
-                s => new { s.Id, s.Name, s.PricePerHour, Amenites = s.SpaceAmenities
+                s => new { s.Id, s.Name, s.PricePerHour, s.SpaceType,s.Capacity, Amenites = s.SpaceAmenities
                 .Select(x => new {x.Amenity.Id,x.Amenity.Name})});
             return Ok(spaces);
         }
+
 
         [HttpGet]
         [Route("{id:int}")]
@@ -39,7 +41,7 @@ namespace WorkSpaceWebAPI.Controllers
                 { 
                     s.Name, s.Description,
                     s.Capacity, s.AvailableFrom,
-                    s.AvailableTo,
+                    s.AvailableTo, s.IsAvailable, s.PricePerHour, s.SpaceType,
                     Amenites = s.SpaceAmenities.Select(sa => new {sa.Amenity.Id,sa.Amenity.Name}),
                     Galleries = s.Gallery.Select(g => new { g.Id, ImageUrl=_galleryRepository.GetFullImageUrl(g.ImageURl), g.Caption }),
                 });
@@ -49,6 +51,7 @@ namespace WorkSpaceWebAPI.Controllers
                 return NotFound();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [Authorize(Roles ="Admin")]
         public IActionResult Add(SpaceDTO spaceDto)
@@ -88,6 +91,7 @@ namespace WorkSpaceWebAPI.Controllers
             return BadRequest(ModelState);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id:int}")]
         public IActionResult Edit(int id, SpaceDTO spaceEdit)
         {
@@ -120,6 +124,7 @@ namespace WorkSpaceWebAPI.Controllers
             return BadRequest(ModelState);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("HardDelete/{id:int}")]
         public IActionResult Delete(int id)
         {

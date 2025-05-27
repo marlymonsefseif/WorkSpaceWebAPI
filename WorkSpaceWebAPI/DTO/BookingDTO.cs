@@ -6,6 +6,7 @@ namespace WorkSpaceWebAPI.DTO
 {
     public class BookingDTO
     {
+        public int Id { get; set; }
         [DataType(DataType.Time)]
         public TimeOnly StartTime { get; set; }
 
@@ -14,13 +15,11 @@ namespace WorkSpaceWebAPI.DTO
 
         [Range(0, double.MaxValue, ErrorMessage = "Amount must be a positive number.")]
         public int Amount { get; set; }
-
+        public string StatusDisplay => status.ToString();
         public Status status { get; set; } = Status.Pending;
-
-        [ForeignKey("User")]
         public int UserId { get; set; }
-
-        [ForeignKey("zone")]
+        public string UserName { get; set; }
         public int ZoneId { get; set; }
+        public string ZoneName { get; set; }
     }
 }

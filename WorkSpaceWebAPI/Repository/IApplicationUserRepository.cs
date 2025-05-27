@@ -5,6 +5,7 @@ namespace WorkSpaceWebAPI.Repository
 {
     public interface IApplicationUserRepository : IGenericRepository<ApplicationUser>
     {
-        public UserDataDto GetUserById(int id);
+        public Task<UserDataDto> GetUserById(int id);
+        public List<UserDataDto> GetUsers();
     }
 }

@@ -9,6 +9,7 @@ using WorkSpaceWebAPI.Repository;
 
 namespace WorkSpaceWebAPI.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class AmenityController : ControllerBase
@@ -39,6 +40,7 @@ namespace WorkSpaceWebAPI.Controllers
             return Ok(amenityDto);
 
         }
+
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {

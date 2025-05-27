@@ -21,5 +21,9 @@ namespace WorkSpaceWebAPI.Models
         public ICollection<Payment>? Payments { get; set; }
         public ICollection<Review>? Reviews { get; set; }
         public ICollection<UserMembership>? Memberships { get; set; }
+        public override string ToString()
+        {
+            return FirstName + ' ' + LastName;
+        }
     }
 }

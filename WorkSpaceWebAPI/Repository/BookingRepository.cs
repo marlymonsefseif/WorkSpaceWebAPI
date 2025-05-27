@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using WorkSpaceWebAPI.DTO;
 using WorkSpaceWebAPI.Models;
 
 namespace WorkSpaceWebAPI.Repository
@@ -27,9 +28,20 @@ namespace WorkSpaceWebAPI.Repository
             }
         }
 
-        public IQueryable<Booking> Get(Expression<Func<Booking, bool>> expression)
+        public IQueryable<BookingDTO> Get(Expression<Func<Booking, bool>> expression)
         {
-            return context.Bookings.Where(expression);
+            return context.Bookings.Where(expression).Select(b => new BookingDTO()
+            {
+                Id = b.Id,
+                UserId = b.User.Id,
+                UserName = b.User.ToString(),
+                ZoneId = b.ZoneId,
+                ZoneName = b.zone.Name,
+                StartTime = b.StartTime,
+                EndTime = b.EndTime,
+                Amount = b.Amount,
+                status = b.status,
+            });
         }
 
         public List<Booking> GetAll()
@@ -61,5 +73,6 @@ namespace WorkSpaceWebAPI.Repository
         {
             context.Update(entity);
         }
+
     }
 }

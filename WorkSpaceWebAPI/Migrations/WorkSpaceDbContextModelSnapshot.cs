@@ -184,9 +184,6 @@ namespace WorkSpaceWebAPI.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("Addrees")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -204,9 +201,6 @@ namespace WorkSpaceWebAPI.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("ImageProfileUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Job")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
@@ -338,7 +332,7 @@ namespace WorkSpaceWebAPI.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 5, 19, 20, 33, 33, 719, DateTimeKind.Utc).AddTicks(7814),
+                            CreatedAt = new DateTime(2025, 5, 26, 18, 48, 6, 399, DateTimeKind.Utc).AddTicks(5329),
                             Email = "ahmed@example.com",
                             FullName = "Ahmed Ali",
                             IsRead = false,
@@ -348,7 +342,7 @@ namespace WorkSpaceWebAPI.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 5, 19, 20, 33, 33, 719, DateTimeKind.Utc).AddTicks(7816),
+                            CreatedAt = new DateTime(2025, 5, 26, 18, 48, 6, 399, DateTimeKind.Utc).AddTicks(5331),
                             Email = "sara@example.com",
                             FullName = "Sara Mohamed",
                             IsRead = false,
@@ -407,6 +401,56 @@ namespace WorkSpaceWebAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MembershipPlans");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Need a desk from time to time? Or a central spot to host meetings? We got ya!",
+                            DurationInDays = 30,
+                            Name = "Flex Desk",
+                            Price = 300
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Bring your screens and get tucked in. This desk is yours and only yours!",
+                            DurationInDays = 65,
+                            Name = "Fixed Desk",
+                            Price = 350
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "A home for your business or a space to jam with your team? Room for 6!",
+                            DurationInDays = 40,
+                            Name = "Enterprise",
+                            Price = 1800
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "In town for a couple of days to meet your remote team? Book for up to 8 pax!",
+                            DurationInDays = 7,
+                            Name = "Meeting Room",
+                            Price = 150
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Just you? €25/day gets you a desk and access to all our amenities.",
+                            DurationInDays = 1,
+                            Name = "Day Pass",
+                            Price = 25
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = "Trying out Lisbon? €140 gets you access Monday through Sunday.",
+                            DurationInDays = 7,
+                            Name = "Week Pass",
+                            Price = 140
+                        });
                 });
 
             modelBuilder.Entity("WorkSpaceWebAPI.Models.Payment", b =>
@@ -440,10 +484,8 @@ namespace WorkSpaceWebAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ApplicationUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Comment")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -458,38 +500,13 @@ namespace WorkSpaceWebAPI.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("spaceId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("RoomId");
 
                     b.HasIndex("UserId");
 
-                    b.HasIndex("spaceId");
-
                     b.ToTable("Reviews");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Comment = "Amazing place, very comfortable for studying!",
-                            CreatedAt = new DateTime(2025, 5, 19, 20, 33, 33, 719, DateTimeKind.Utc).AddTicks(7781),
-                            Rating = 5,
-                            RoomId = 1,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Comment = "Nice, but could be a bit quieter.",
-                            CreatedAt = new DateTime(2025, 5, 19, 20, 33, 33, 719, DateTimeKind.Utc).AddTicks(7783),
-                            Rating = 4,
-                            RoomId = 2,
-                            UserId = 2
-                        });
                 });
 
             modelBuilder.Entity("WorkSpaceWebAPI.Models.SpaceAmenity", b =>
@@ -739,23 +756,21 @@ namespace WorkSpaceWebAPI.Migrations
 
             modelBuilder.Entity("WorkSpaceWebAPI.Models.Review", b =>
                 {
-                    b.HasOne("WorkSpaceWebAPI.Models.ApplicationUser", null)
-                        .WithMany("Reviews")
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("WorkSpaceWebAPI.Models.UserMembership", "User")
+                    b.HasOne("WorkSpaceWebAPI.Models.Spaces", "Room")
                         .WithMany()
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WorkSpaceWebAPI.Models.ApplicationUser", "User")
+                        .WithMany("Reviews")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WorkSpaceWebAPI.Models.Spaces", "space")
-                        .WithMany()
-                        .HasForeignKey("spaceId");
+                    b.Navigation("Room");
 
                     b.Navigation("User");
-
-                    b.Navigation("space");
                 });
 
             modelBuilder.Entity("WorkSpaceWebAPI.Models.SpaceAmenity", b =>

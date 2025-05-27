@@ -75,7 +75,13 @@ namespace WorkSpaceWebAPI.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FullName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Subject = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsRead = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -111,6 +117,7 @@ namespace WorkSpaceWebAPI.Migrations
                     AvailableFrom = table.Column<TimeSpan>(type: "time", nullable: false),
                     AvailableTo = table.Column<TimeSpan>(type: "time", nullable: false),
                     IsAvailable = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     SpaceType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -136,7 +143,7 @@ namespace WorkSpaceWebAPI.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -157,7 +164,7 @@ namespace WorkSpaceWebAPI.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -177,7 +184,7 @@ namespace WorkSpaceWebAPI.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -195,13 +202,13 @@ namespace WorkSpaceWebAPI.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -221,7 +228,7 @@ namespace WorkSpaceWebAPI.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -243,13 +250,13 @@ namespace WorkSpaceWebAPI.Migrations
                         column: x => x.User_Id,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserMemberships_MembershipPlans_MembershipPlans_Id",
                         column: x => x.MembershipPlans_Id,
                         principalTable: "MembershipPlans",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -274,13 +281,13 @@ namespace WorkSpaceWebAPI.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Bookings_Spaces_ZoneId",
                         column: x => x.ZoneId,
                         principalTable: "Spaces",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -289,7 +296,7 @@ namespace WorkSpaceWebAPI.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageURl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Caption = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SpaceId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -301,33 +308,7 @@ namespace WorkSpaceWebAPI.Migrations
                         column: x => x.SpaceId,
                         principalTable: "Spaces",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SpaceAmenities",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SpaceId = table.Column<int>(type: "int", nullable: false),
-                    AmenityId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SpaceAmenities", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SpaceAmenities_Amenities_AmenityId",
-                        column: x => x.AmenityId,
-                        principalTable: "Amenities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
-                    table.ForeignKey(
-                        name: "FK_SpaceAmenities_Spaces_SpaceId",
-                        column: x => x.SpaceId,
-                        principalTable: "Spaces",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -336,33 +317,51 @@ namespace WorkSpaceWebAPI.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    RoomId = table.Column<int>(type: "int", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: false),
-                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ApplicationUserId = table.Column<int>(type: "int", nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    RoomId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reviews_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
+                        name: "FK_Reviews_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Reviews_Spaces_RoomId",
                         column: x => x.RoomId,
                         principalTable: "Spaces",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SpaceAmenities",
+                columns: table => new
+                {
+                    SpaceId = table.Column<int>(type: "int", nullable: false),
+                    AmenityId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SpaceAmenities", x => new { x.SpaceId, x.AmenityId });
                     table.ForeignKey(
-                        name: "FK_Reviews_UserMemberships_UserId",
-                        column: x => x.UserId,
-                        principalTable: "UserMemberships",
+                        name: "FK_SpaceAmenities_Amenities_AmenityId",
+                        column: x => x.AmenityId,
+                        principalTable: "Amenities",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SpaceAmenities_Spaces_SpaceId",
+                        column: x => x.SpaceId,
+                        principalTable: "Spaces",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -390,15 +389,37 @@ namespace WorkSpaceWebAPI.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Spaces",
-                columns: new[] { "Id", "AvailableFrom", "AvailableTo", "Capacity", "Description", "IsAvailable", "Name", "PricePerHour", "SpaceType" },
+                table: "ContactMessages",
+                columns: new[] { "Id", "CreatedAt", "Email", "FullName", "IsRead", "Message", "Subject" },
                 values: new object[,]
                 {
-                    { 1, new TimeSpan(0, 8, 0, 0, 0), new TimeSpan(0, 16, 0, 0, 0), 50, "Room To Study", true, "StudyRoom 1", 20m, 0 },
-                    { 2, new TimeSpan(0, 9, 0, 0, 0), new TimeSpan(0, 17, 0, 0, 0), 30, "Lab for practice", true, "ITI Lab", 25m, 3 },
-                    { 3, new TimeSpan(0, 10, 0, 0, 0), new TimeSpan(0, 14, 0, 0, 0), 10, "Team meetings", false, "Meeting Room A", 15m, 1 },
-                    { 4, new TimeSpan(0, 9, 0, 0, 0), new TimeSpan(0, 18, 0, 0, 0), 100, "Events and workshops", true, "Workshop Hall", 50m, 2 },
-                    { 5, new TimeSpan(0, 7, 0, 0, 0), new TimeSpan(0, 22, 0, 0, 0), 20, "For focused study", true, "Silent Study Room", 10m, 0 }
+                    { 1, new DateTime(2025, 5, 26, 18, 48, 6, 399, DateTimeKind.Utc).AddTicks(5329), "ahmed@example.com", "Ahmed Ali", false, "Can I get the pricing details and booking information?", "Inquiry about rooms" },
+                    { 2, new DateTime(2025, 5, 26, 18, 48, 6, 399, DateTimeKind.Utc).AddTicks(5331), "sara@example.com", "Sara Mohamed", false, "I booked a room but didn’t receive a confirmation. Can you contact me?", "Issue with booking" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "MembershipPlans",
+                columns: new[] { "Id", "Description", "DurationInDays", "Name", "Price" },
+                values: new object[,]
+                {
+                    { 1, "Need a desk from time to time? Or a central spot to host meetings? We got ya!", 30, "Flex Desk", 300 },
+                    { 2, "Bring your screens and get tucked in. This desk is yours and only yours!", 65, "Fixed Desk", 350 },
+                    { 3, "A home for your business or a space to jam with your team? Room for 6!", 40, "Enterprise", 1800 },
+                    { 4, "In town for a couple of days to meet your remote team? Book for up to 8 pax!", 7, "Meeting Room", 150 },
+                    { 5, "Just you? €25/day gets you a desk and access to all our amenities.", 1, "Day Pass", 25 },
+                    { 6, "Trying out Lisbon? €140 gets you access Monday through Sunday.", 7, "Week Pass", 140 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Spaces",
+                columns: new[] { "Id", "AvailableFrom", "AvailableTo", "Capacity", "Description", "IsAvailable", "IsDeleted", "Name", "PricePerHour", "SpaceType" },
+                values: new object[,]
+                {
+                    { 1, new TimeSpan(0, 8, 0, 0, 0), new TimeSpan(0, 16, 0, 0, 0), 50, "Room To Study", true, false, "StudyRoom 1", 20m, 0 },
+                    { 2, new TimeSpan(0, 9, 0, 0, 0), new TimeSpan(0, 17, 0, 0, 0), 30, "Lab for practice", true, false, "ITI Lab", 25m, 3 },
+                    { 3, new TimeSpan(0, 10, 0, 0, 0), new TimeSpan(0, 14, 0, 0, 0), 10, "Team meetings", false, false, "Meeting Room A", 15m, 1 },
+                    { 4, new TimeSpan(0, 9, 0, 0, 0), new TimeSpan(0, 18, 0, 0, 0), 100, "Events and workshops", true, false, "Workshop Hall", 50m, 2 },
+                    { 5, new TimeSpan(0, 7, 0, 0, 0), new TimeSpan(0, 22, 0, 0, 0), 20, "For focused study", true, false, "Silent Study Room", 10m, 0 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -466,11 +487,6 @@ namespace WorkSpaceWebAPI.Migrations
                 column: "BookingId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_ApplicationUserId",
-                table: "Reviews",
-                column: "ApplicationUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Reviews_RoomId",
                 table: "Reviews",
                 column: "RoomId");
@@ -484,11 +500,6 @@ namespace WorkSpaceWebAPI.Migrations
                 name: "IX_SpaceAmenities_AmenityId",
                 table: "SpaceAmenities",
                 column: "AmenityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SpaceAmenities_SpaceId",
-                table: "SpaceAmenities",
-                column: "SpaceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserMemberships_MembershipPlans_Id",
@@ -535,25 +546,25 @@ namespace WorkSpaceWebAPI.Migrations
                 name: "SpaceAmenities");
 
             migrationBuilder.DropTable(
+                name: "UserMemberships");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Bookings");
 
             migrationBuilder.DropTable(
-                name: "UserMemberships");
-
-            migrationBuilder.DropTable(
                 name: "Amenities");
 
             migrationBuilder.DropTable(
-                name: "Spaces");
+                name: "MembershipPlans");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "MembershipPlans");
+                name: "Spaces");
         }
     }
 }

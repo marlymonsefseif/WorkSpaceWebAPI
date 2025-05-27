@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WorkSpaceWebAPI.DTO;
 using WorkSpaceWebAPI.Models;
@@ -6,6 +7,7 @@ using WorkSpaceWebAPI.Repository;
 
 namespace WorkSpaceWebAPI.Controllers
 {
+    //[Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class MembershipPlansController : ControllerBase
@@ -15,6 +17,8 @@ namespace WorkSpaceWebAPI.Controllers
         {
             this.membershipPlansRepository = membershipPlansRepository;
         }
+
+
         [HttpGet]
         public ActionResult GetAll()
         {
@@ -23,6 +27,7 @@ namespace WorkSpaceWebAPI.Controllers
                 return NotFound();
             return Ok(list);
         }
+
         [HttpGet("{id:int}")]
         public ActionResult Get(int id)
         {
@@ -31,6 +36,8 @@ namespace WorkSpaceWebAPI.Controllers
                 return NotFound();
             return Ok(plan);
         }
+
+
         [HttpPost]
         public ActionResult Add(MembershipPlanDTO planDTO)
         {
@@ -56,6 +63,8 @@ namespace WorkSpaceWebAPI.Controllers
             }
             return BadRequest(ModelState);
         }
+
+
         [HttpPut("{id:int}")]
         public ActionResult Edit(int id, MembershipPlanDTO plan)
         {
@@ -81,6 +90,8 @@ namespace WorkSpaceWebAPI.Controllers
             }
             return BadRequest(ModelState);
         }
+
+
         [HttpDelete("{id:int}")]
         public ActionResult Delete(int id)
         {
