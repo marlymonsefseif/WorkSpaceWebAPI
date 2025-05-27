@@ -34,9 +34,9 @@ namespace WorkSpaceWebAPI.Repository
             return _context.Users.FirstOrDefault(u => u.Id == id);
         }
 
-        public UserDataDto GetUserById(int id)
+        public async Task<UserDataDto> GetUserById(int id)
         {
-            return _context.Users.Select(u => new UserDataDto()
+            return await _context.Users.Select(u => new UserDataDto()
             {
                 Id = u.Id,
                 FirstName = u.FirstName,
@@ -44,7 +44,7 @@ namespace WorkSpaceWebAPI.Repository
                 Email = u.Email,
                 PhoneNumber = u.PhoneNumber,
                 MembershipName = u.Memberships.Select(m => m.MembershipPlan.Name).ToList()
-            }).FirstOrDefault(u => u.Id == id);
+            }).FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public List<UserDataDto> GetUsers()
@@ -74,5 +74,6 @@ namespace WorkSpaceWebAPI.Repository
         {
             _context.Update(entity);
         }
+
     }
 }

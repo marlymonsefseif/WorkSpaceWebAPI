@@ -42,7 +42,7 @@ namespace WorkSpaceWebAPI.Controllers
         [Route("GetPending")]
         public IActionResult GetPending()
         {
-            List<Booking> bookings = bookingRepository.Get(b => b.status == Status.Pending).ToList();
+            List<BookingDTO> bookings = bookingRepository.Get(b => b.status == Status.Pending).ToList();
             if (bookings == null)
                 return NotFound();
             return Ok(bookings);
@@ -53,7 +53,7 @@ namespace WorkSpaceWebAPI.Controllers
         [Route("GetCancelled")]
         public IActionResult GetCancelled()
         {
-            List<Booking> bookings = bookingRepository.Get(b => b.status == Status.Cancelled).ToList();
+            List<BookingDTO> bookings = bookingRepository.Get(b => b.status == Status.Cancelled).ToList();
             if (bookings == null)
                 return NotFound();
             return Ok(bookings);
@@ -64,7 +64,7 @@ namespace WorkSpaceWebAPI.Controllers
         [Route("GetConfirmed")]
         public IActionResult GetConfirmed()
         {
-            List<Booking> bookings = bookingRepository.Get(b => b.status == Status.Confirmed).ToList();
+            List<BookingDTO> bookings = bookingRepository.Get(b => b.status == Status.Confirmed).ToList();
             if (bookings == null)
                 return NotFound();
             return Ok(bookings);
@@ -75,7 +75,7 @@ namespace WorkSpaceWebAPI.Controllers
         [Route("GetByStartTime")]
         public IActionResult GetByStartTime(TimeOnly startTime)
         {
-            List<Booking> bookings = bookingRepository.Get(b => b.StartTime == startTime).ToList();
+            List<BookingDTO> bookings = bookingRepository.Get(b => b.StartTime == startTime).ToList();
             if(bookings == null) 
                 return NotFound();
             return Ok(bookings);
@@ -153,7 +153,7 @@ namespace WorkSpaceWebAPI.Controllers
                 return NotFound();
             bookingRepository.DeleteById(id);
             bookingRepository.Save();
-            return Ok();
+            return Ok(new { message = "Delete Success" });
         }
     }
 }

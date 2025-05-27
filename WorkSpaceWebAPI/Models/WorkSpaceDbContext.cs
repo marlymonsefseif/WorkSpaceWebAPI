@@ -180,21 +180,6 @@ namespace WorkSpaceWebAPI.Models
             //);
 
 
-            //modelBuilder.Entity<ApplicationUser>()
-            //    .HasMany(u => u.Bookings)
-            //    .WithOne(b => b.User)
-            //    .OnDelete(DeleteBehavior.Cascade);
-
-            //modelBuilder.Entity<ApplicationUser>()
-            //    .HasMany(u => u.Reviews)
-            //    .WithOne(r => r.User)
-            //    .OnDelete(DeleteBehavior.Cascade);
-
-            //modelBuilder.Entity<ApplicationUser>()
-            //    .HasMany(u => u.Memberships)
-            //    .WithOne(m => m.User)
-            //    .OnDelete(DeleteBehavior.Cascade);
-
         }
     }
 }

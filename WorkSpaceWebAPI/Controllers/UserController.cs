@@ -33,9 +33,9 @@ namespace WorkSpaceWebAPI.Controllers
 
         [HttpGet("{id:int}")]
         [Authorize]
-        public IActionResult GetUser(int id)
+        public async Task<IActionResult> GetUser(int id)
         {
-            UserDataDto userData = _userRepository.GetUserById(id);
+            UserDataDto userData = await _userRepository.GetUserById(id);
             return Ok(userData);
         }
 
@@ -70,10 +70,13 @@ namespace WorkSpaceWebAPI.Controllers
             return Ok(new { message = "Edit Success" });
         }
 
-        [HttpDelete]
+        [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteUser(int id)
         {
-
+            _userRepository.DeleteById(id);
+            _userRepository.Save();
+            return Ok(new { message = "Delete Success" });
         }
     }
 }
