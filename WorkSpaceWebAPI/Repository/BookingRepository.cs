@@ -41,6 +41,7 @@ namespace WorkSpaceWebAPI.Repository
                 EndTime = b.EndTime,
                 Amount = b.Amount,
                 status = b.status,
+                Date = b.Date
             });
         }
 

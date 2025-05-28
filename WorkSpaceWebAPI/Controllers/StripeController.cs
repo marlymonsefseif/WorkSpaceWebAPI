@@ -58,6 +58,7 @@ public class PaymentController : ControllerBase
         StripeConfiguration.ApiKey = _secretKey;  
     }
 
+    [Authorize]
     [HttpPost("create-payment-intent")]
     public async Task<IActionResult> CreateCheckoutSession([FromBody] PaymentRequest paymentRequest)
     {

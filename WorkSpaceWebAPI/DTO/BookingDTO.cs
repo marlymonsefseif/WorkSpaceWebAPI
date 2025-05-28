@@ -7,6 +7,9 @@ namespace WorkSpaceWebAPI.DTO
     public class BookingDTO
     {
         public int Id { get; set; }
+
+        [DataType(DataType.DateTime)]
+        public DateTime Date { get; set; }
         [DataType(DataType.Time)]
         public TimeOnly StartTime { get; set; }
 
