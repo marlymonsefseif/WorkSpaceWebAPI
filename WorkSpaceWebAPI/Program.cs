@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.Extensions.FileProviders;
 
 namespace WorkSpaceWebAPI
 {
@@ -30,7 +31,7 @@ namespace WorkSpaceWebAPI
             //options.UseSqlServer(builder.Configuration.GetConnectionString("cs"))
             //options.UseSqlServer(builder.Configuration.GetConnectionString("CS"))
             //options.UseSqlServer(builder.Configuration.GetConnectionString("Rahma"))
-            options.UseSqlServer(builder.Configuration.GetConnectionString("CS"))
+            options.UseSqlServer(builder.Configuration.GetConnectionString("asmaa"))
             );
 
 
@@ -170,6 +171,12 @@ namespace WorkSpaceWebAPI
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), "GalleryUploads")),
+                RequestPath = "/GalleryUploads"
+            });
             app.MapControllers();
 
            

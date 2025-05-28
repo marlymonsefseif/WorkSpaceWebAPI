@@ -27,7 +27,7 @@ namespace WorkSpaceWebAPI.Controllers
                 .GetAllAsync(g =>
                 new {
                     g.Id,
-                    ImageUrl=_galleryReposetory.GetFullImageUrl(g.ImageURl),
+                    ImageUrl=g.ImageURl,//_galleryReposetory.GetFullImageUrl(g.ImageURl),
                     g.Caption
                 });
             return Ok(galleries);
@@ -38,7 +38,7 @@ namespace WorkSpaceWebAPI.Controllers
             var gallery = await _galleryReposetory.GetByIdAsync(id);
             if (gallery == null)
                 return NotFound();
-            gallery.ImageURl = _galleryReposetory.GetFullImageUrl(gallery.ImageURl);
+            //gallery.ImageURl = _galleryReposetory.GetFullImageUrl(gallery.ImageURl);
             return Ok(gallery);
         }
         [HttpGet("space/{spaceId:int}")]
@@ -49,7 +49,7 @@ namespace WorkSpaceWebAPI.Controllers
                     g => new 
                     {
                         g.Id,
-                        ImageUrl=_galleryReposetory.GetFullImageUrl(g.ImageURl),
+                        ImageUrl=g.ImageURl,//_galleryReposetory.GetFullImageUrl(g.ImageURl),
                         g.Caption,
                         g.SpaceId
                     });
