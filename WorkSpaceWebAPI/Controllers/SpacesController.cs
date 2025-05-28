@@ -25,8 +25,17 @@ namespace WorkSpaceWebAPI.Controllers
         public IActionResult GetAll()
         {
             var spaces = _spaceRepository.Get(s => s.IsDeleted == false,
-                s => new { s.Id, s.Name, s.PricePerHour, s.SpaceType,s.Capacity, Amenites = s.SpaceAmenities
-                .Select(x => new {x.Amenity.Id,x.Amenity.Name})});
+                s => new
+                {
+                    s.Id,
+                    s.Name,
+                    s.PricePerHour,
+                    s.SpaceType,
+                    s.Capacity,
+                    Amenites = s.SpaceAmenities
+                .Select(x => new { x.Amenity.Id, x.Amenity.Name }),
+                    Galleries = s.Gallery.Select(g => new { g.Id, ImageUrl = g.ImageURl, g.Caption })
+                });
             return Ok(spaces);
         }
 
@@ -43,7 +52,7 @@ namespace WorkSpaceWebAPI.Controllers
                     s.Capacity, s.AvailableFrom,
                     s.AvailableTo, s.IsAvailable, s.PricePerHour, s.SpaceType,
                     Amenites = s.SpaceAmenities.Select(sa => new {sa.Amenity.Id,sa.Amenity.Name}),
-                    Galleries = s.Gallery.Select(g => new { g.Id, ImageUrl=_galleryRepository.GetFullImageUrl(g.ImageURl), g.Caption }),
+                    Galleries = s.Gallery.Select(g => new { g.Id, ImageUrl=g.ImageURl, g.Caption }),
                 });
             if (space != null)
                 return Ok(space);
@@ -51,7 +60,6 @@ namespace WorkSpaceWebAPI.Controllers
                 return NotFound();
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         [Authorize(Roles ="Admin")]
         public IActionResult Add(SpaceDTO spaceDto)
@@ -139,6 +147,7 @@ namespace WorkSpaceWebAPI.Controllers
 
             return NotFound();
         }
+        [Authorize(Roles = "Admin")]
         [HttpDelete("SoftDelete/{id:int}")]
         public IActionResult SoftDelete(int id)
         {
@@ -152,6 +161,8 @@ namespace WorkSpaceWebAPI.Controllers
             }
             return NotFound();
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPatch("restor/{id:int}")]
         public IActionResult Restore(int id)
         {
@@ -165,6 +176,8 @@ namespace WorkSpaceWebAPI.Controllers
             }
             return NotFound();
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpGet("GetDeleted")]
         public IActionResult GetDeleted()
         {
